@@ -7,11 +7,13 @@
             <h1 id="platform-logo"><router-link to="/">strellus</router-link></h1>
             <div>
                 <h3>Create an account</h3>
-                <label for="email">Email Address</label>
-                <input name="email" type="text" v-model="email"><br>
-                <label for="password">Password</label>
-                <input name="password" type="password" v-model="password"><br>
-                <button @click="signup">Sign up</button>
+                <form @submit="signup">
+                    <label for="email">Email Address</label>
+                    <input name="email" type="text" v-model="email"><br>
+                    <label for="password">Password</label>
+                    <input name="password" type="password" v-model="password"><br>
+                    <input class="button" type="submit" value="Sign In">
+                </form>
                 <p class="st-text-c">Already have an account?
                     <router-link to="/login">Login</router-link>
                 </p>
@@ -34,7 +36,9 @@ export default {
         };
     },
     methods: {
-        signup() {
+        signup(e) {
+            e.preventDefault();
+            
             firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
                 (user) => this.$router.replace('/dashboard'),
                 (err) => alert('Oops. ' + err.message),
@@ -68,12 +72,12 @@ export default {
     }
 }
 
-input {
+input:not(.button) {
     width: 300px;
     height: 40px;
 }
 
-button {
+.button {
     margin-top: 30px;
 }
 </style>

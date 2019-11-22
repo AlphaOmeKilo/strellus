@@ -36,7 +36,8 @@ input {
   font-size: 18px;
 }
 
-button {
+button,
+.button {
   border-radius: 4px;
   background-color: #2368d9;
   height: 50px;

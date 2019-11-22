@@ -2,14 +2,19 @@
     <div class="login st-flex">
         <div class="login-form st-vh-center">
             <div>
-                <h1 id="platform-logo"><router-link to="/">strellus</router-link></h1>
+                <h1 id="platform-logo">
+                    <router-link to="/">strellus</router-link>
+                </h1>
                 <h3>Sign In to Strellus</h3>
                 <p>Please enter your credentials to proceed</p>
-                <label for="email">Email Address</label>
-                <input name="email" type="text" v-model="email"><br>
-                <label for="password">Password</label>
-                <input name="password" type="password" v-model="password"><br>
-                <button @click="login">Sign In</button>
+                <form @submit="login">
+                    <label for="email">Email Address</label>
+                    <input name="email" type="text" v-model="email"><br>
+                    <label for="password">Password</label>
+                    <input name="password" type="password" v-model="password"><br>
+                    <input class="button" type="submit" value="Sign In">
+                </form>
+
                 <p class="st-text-c">Don't have an account?
                     <router-link to="/signup">Sign Up!</router-link>
                 </p>
@@ -34,12 +39,14 @@ export default {
         };
     },
     methods: {
-        login() {
+        login(e) {
+            e.preventDefault();
+            
             firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
                 (user) => {
                     this.$router.replace('dashboard');
                 },
-                (err) => { 
+                (err) => {
                     alert('Oops. ' + err)
                 },
             );
@@ -49,7 +56,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 #platform-logo {
     position: absolute;
     top: 0;
@@ -64,7 +70,6 @@ export default {
     }
     &-form {
         text-align: left;
-
         p {
             margin-bottom: 40px;
         }
@@ -76,12 +81,12 @@ export default {
     }
 }
 
-input {
+input:not(.button) {
     width: 300px;
     height: 40px;
 }
 
-button {
+.button {
     margin-top: 30px;
 }
 </style>
