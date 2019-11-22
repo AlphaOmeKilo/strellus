@@ -1,10 +1,20 @@
 <template>
-    <div class="sign-up">
-        <h3>Create an account</h3>
-        <input type="text" v-model="email" placeholder="Email"><br>
-        <input type="password" v-model="password" placeholder="Password"><br>
-        <button @click="signup">Sign up</button>
-        <p>Already have an account? <router-link to="/login">Login</router-link></p>
+    <div class="signup st-flex">
+        <div class="signup-img">
+    
+        </div>
+        <div class="signup-form st-vh-center">
+            <div>
+                <h3>Create an account</h3>
+                <input type="text" v-model="email" placeholder="Email"><br>
+                <input type="password" v-model="password" placeholder="Password"><br>
+                <button @click="signup">Sign up</button>
+                <p>Already have an account?
+                    <router-link to="/login">Login</router-link>
+                </p>
+            </div>
+        </div>
+    
     </div>
 </template>
 
@@ -30,3 +40,19 @@ export default {
     },
 };
 </script>
+
+
+<style lang="scss" scoped>
+.signup {
+    height: 100vh;
+    &-form,
+    &-img {
+        width: 50%;
+    }
+    &-img {
+        background-image: url('../assets/max-bender-unsplash.jpg');
+        background-size: cover;
+        background-position: center;
+    }
+}
+</style>

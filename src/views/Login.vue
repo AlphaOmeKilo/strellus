@@ -1,10 +1,19 @@
 <template>
-    <div class="login">
-        <h3>Sign In</h3>
-        <input type="text" v-model="email" placeholder="Email"><br>
-        <input type="password" v-model="password" placeholder="Password"><br>
-        <button @click="login">Sign In</button>
-        <p>Don't have an account? <router-link to="/signup">Sign Up!</router-link></p>
+    <div class="login st-flex">
+        <div class="login-form st-vh-center">
+            <div>
+                <h3>Sign In</h3>
+                <input type="text" v-model="email" placeholder="Email"><br>
+                <input type="password" v-model="password" placeholder="Password"><br>
+                <button @click="login">Sign In</button>
+                <p>Don't have an account?
+                    <router-link to="/signup">Sign Up!</router-link>
+                </p>
+            </div>
+        </div>
+        <div class="login-img">
+    
+        </div>
     </div>
 </template>
 
@@ -14,21 +23,36 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 
 export default {
-  data: () => {
-      return {
-          email: '',
-          password: '',
-      };
-  },
-  methods: {
-      login() {
-          firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
-              (user) => {
-                this.$router.replace('dashboard');
-              },
-              (err) => alert('Oops. ' + err),
-          );
-      },
-  },
+    data: () => {
+        return {
+            email: '',
+            password: '',
+        };
+    },
+    methods: {
+        login() {
+            firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
+                (user) => {
+                    this.$router.replace('dashboard');
+                },
+                (err) => alert('Oops. ' + err),
+            );
+        },
+    },
 };
 </script>
+
+<style lang="scss" scoped>
+.login {
+    height: 100vh;
+    &-form,
+    &-img {
+        width: 50%;
+    }
+    &-img {
+        background-image: url('../assets/max-bender-unsplash.jpg');
+        background-size: cover;
+        background-position: center;
+    }
+}
+</style>

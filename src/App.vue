@@ -1,6 +1,8 @@
 <template>
     <div id="app">
-        <router-view/>
+        <transition name="slide-rl" mode="out-in">
+            <router-view/>
+        </transition>
     </div>
 </template>
 
@@ -10,8 +12,8 @@ body {
 }
 
 #platform {
-  height: 100vh;
-  background-color: #ebf0ff;
+    height: 100vh;
+    background-color: #ebf0ff;
 }
 
 #app {
@@ -34,20 +36,36 @@ body {
 }
 
 .st-flex {
-  display: flex;
+    display: flex;
 }
 
 .st-v-center {
+    display: flex;
+    align-items: center;
+}
+
+.st-vh-center {
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .slide-rl-enter-active,
-.slide-rl-leave-active {
-  transition: all .3s ease;
+.slide-rl-leave-active,
+.slide-lr-enter-active,
+.slide-lr-leave-active {
+    transition: all .3s ease;
 }
-.slide-rl-enter, .slide-rl-leave-to {
-  transform: translateX(200px);
-  opacity: 0;
+
+.slide-rl-enter,
+.slide-rl-leave-to {
+    transform: translateX(200px);
+    opacity: 0;
+}
+
+.slide-lr-enter,
+.slide-lr-leave-to {
+    transform: translateX(-200px);
+    opacity: 0;
 }
 </style>
