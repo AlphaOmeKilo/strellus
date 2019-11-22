@@ -11,9 +11,52 @@ body {
     margin: 0;
 }
 
+p {
+  margin: 8px 0;
+}
+
+h3 {
+  font-size: 32px;
+  margin-bottom: 0;
+}
+
+label {
+  display: block;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 2px;
+  margin: 20px 0 8px;
+}
+
+input {
+  background-color: #ebf0ff;
+  border: 1px solid rgba(83, 56, 117, 1);
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 18px;
+}
+
+button {
+  border-radius: 4px;
+  background-color: #2368d9;
+  height: 50px;
+  width: 100%;
+  color: #FFFFFF;
+  font-size: 16px;
+  cursor: pointer;
+}
+
 #platform {
     height: 100vh;
     background-color: #ebf0ff;
+    &-logo {
+        margin-left: 100px;
+        font-size: 20px;
+        a {
+            text-decoration: none;
+            color: #000000;
+        }
+    }
 }
 
 #app {
@@ -45,9 +88,13 @@ body {
 }
 
 .st-vh-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.st-text-c {
+  text-align: center;
 }
 
 .slide-rl-enter-active,

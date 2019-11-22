@@ -26,15 +26,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#platform-logo {
-  margin-left: 100px;
-  font-size: 20px;
-
-  a {
-    text-decoration: none;
-    color: #000000;
-  }
-}
 
 header {
     position: relative;

@@ -60,7 +60,6 @@ export default {
             &.active {
                 background-color: #ebf0ff;
                 &:after {
-                    content: '';
                     background-color: rgba(83, 56, 117, 1);
                 }
             }
