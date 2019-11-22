@@ -7,7 +7,7 @@ import './registerServiceWorker';
 
 Vue.config.productionTip = false;
 
-let app: Vue;
+let app;
 
 const config = {
   apiKey: 'AIzaSyDwpTemPlyJ-nyp2fWmfb7nB_BS49wUDkw',

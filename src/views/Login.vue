@@ -8,11 +8,12 @@
     </div>
 </template>
 
-<script lang="ts">
+<script>
 import Vue from 'vue';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
-export default Vue.extend({
+export default {
   data: () => {
       return {
           email: '',
@@ -20,15 +21,14 @@ export default Vue.extend({
       };
   },
   methods: {
-      login(): void {
+      login() {
           firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
               (user) => {
-                alert('Login Succesfull');
                 this.$router.replace('dashboard');
               },
               (err) => alert('Oops. ' + err),
           );
       },
   },
-});
+};
 </script>

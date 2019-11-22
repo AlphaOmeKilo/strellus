@@ -6,11 +6,12 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import Vue from 'vue';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
-export default Vue.extend({
+export default {
   methods: {
     signout() {
       firebase.auth().signOut().then(() => {
@@ -20,5 +21,5 @@ export default Vue.extend({
       });
     },
   },
-});
+};
 </script>

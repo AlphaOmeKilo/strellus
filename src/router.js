@@ -2,6 +2,9 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import firebase from 'firebase';
 
+import Platform from './views/Platform.vue';
+import Dashboard from './views/Dashboard.vue';
+
 Vue.use(Router);
 
 const router = new Router({
@@ -9,20 +12,19 @@ const router = new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '*',
-      redirect: '/dashboard',
-    },
-    {
       path: '/',
-      redirect: '/dashboard',
-    },
-    {
-      path: '/dashboard',
-      name: 'dashboard',
-      component: () => import('./views/Dashboard.vue'),
+      name: 'platform',
+      component: Platform,
       meta: {
         requiresAuth: true,
       },
+      children: [
+        {
+          path: '',
+          name: 'dashboard',
+          component: Dashboard,
+        }
+      ]
     },
     {
       path: '/login',
@@ -33,6 +35,10 @@ const router = new Router({
       path: '/signup',
       name: 'signup',
       component: () => import('./views/SignUp.vue'),
+    },
+    {
+      path: '*',
+      redirect: '/',
     },
   ],
 });
