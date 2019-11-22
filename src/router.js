@@ -13,7 +13,6 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'platform',
       component: Platform,
       meta: {
         requiresAuth: true,
