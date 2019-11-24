@@ -4,7 +4,10 @@
         </div>
         <transition name="slide-rl" mode="out-in">
             <div v-show="showMenu" id="userMenu">
-                <button @click="signout">Sign Out</button>
+                <div class="st-text-r st-border-b">
+                    <button @click="signout" class="button button-light">Sign Out</button>
+                </div>
+    
             </div>
         </transition>
     
@@ -32,7 +35,7 @@ export default {
             this.$emit('toggle');
         }
     },
-    
+
 }
 </script>
 
@@ -56,6 +59,10 @@ export default {
     right: 0;
     width: 240px;
     height: calc(100vh - 80px);
-    background-color: #533875;
+    background-color: #FFFFFF;
+
+    button {
+        margin: 20px 20px 20px 0;
+    }
 }
 </style>

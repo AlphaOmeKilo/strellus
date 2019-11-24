@@ -6,6 +6,7 @@ import store from './store';
 
 import Platform from './views/Platform.vue';
 import Dashboard from './views/Dashboard.vue';
+import AddLink from './components/link/AddLink.vue';
 
 Vue.use(Router);
 
@@ -25,8 +26,20 @@ const router = new Router({
           name: 'dashboard',
           component: Dashboard,
           beforeEnter(to, from, next) {
-            store.dispatch('NotificationStore/updateNotifications').then(res => next() )
-          }
+            store.dispatch('NotificationStore/updateNotifications').then(res => next())
+          },
+          children: [
+            {
+              path: "addLink",
+              name: "Add Link",
+              components: {
+                addLink: AddLink
+              },
+              meta: {
+                showModal: true
+              }
+            },
+          ]
         }
       ]
     },

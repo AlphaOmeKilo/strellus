@@ -127,7 +127,9 @@ button,
 .slide-rl-enter-active,
 .slide-rl-leave-active,
 .slide-lr-enter-active,
-.slide-lr-leave-active {
+.slide-lr-leave-active,
+.fade-enter-active,
+.fade-leave-active {
     transition: all .3s ease;
 }
 
@@ -140,6 +142,11 @@ button,
 .slide-lr-enter,
 .slide-lr-leave-to {
     transform: translateX(-200px);
+    opacity: 0;
+}
+
+.fade-enter,
+.fade-leave-to {
     opacity: 0;
 }
 </style>

@@ -8,9 +8,9 @@
                     <button @click="clearAllNotifications" class="button button-light">Clear</button>
                 </div>
                 <transition-group name="slide-rl">
-                    <div v-show="showMenu" v-for="(notification, index) in notifications" :key="`notification_${index}`" class="st-border-b st-v-center">
+                    <div v-show="showMenu" v-for="(notification, index) in notifications" :key="`notification_${index}`" class="notification st-border-b st-v-center">
                         <div :class="`notification-icon notification-${notification.icon_class}`">
-                            image
+                            <div class="temp-image"></div>
                         </div>
                         <div class="st-text-l">
                             <p class="label st-text-grey">{{notification.project}} / {{notification.doctype}}</p>
@@ -66,9 +66,12 @@ export default {
     }
 }
 
-.notification-icon {
-    margin: 12px;
-    &.notification-default {}
+.notification {
+    cursor: pointer;
+    &-icon {
+        margin: 12px;
+        &.notification-default {}
+    }
 }
 
 #notificationMenu {
@@ -81,5 +84,12 @@ export default {
     button {
         margin: 20px 20px 20px 0;
     }
+}
+
+.temp-image {
+    background-color: #533875;
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
 }
 </style>

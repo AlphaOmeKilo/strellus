@@ -7,10 +7,10 @@
             </h1>
         </div>
         <div class="st-v-center">
+            <router-link id="addLink" to="/addLink"></router-link>
             <Notifications :showMenu="notificationMenu" @toggle="toggleNotificationMenu"></Notifications>
             <UserMenu :showMenu="userMenu" @toggle="toggleUserMenu"></UserMenu>
         </div>
-    
     </header>
 </template>
 
@@ -21,7 +21,7 @@ import Notifications from './Notifications.vue';
 
 export default {
     name: "Header",
-    data: ()  => ({
+    data: () => ({
         notificationMenu: false,
         userMenu: false
     }),
@@ -54,5 +54,18 @@ header {
     background-color: #FFFFFF;
     display: flex;
     justify-content: space-between;
+}
+
+#addLink {
+    cursor: pointer;
+    background-color: #533875;
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    transition: 0.25s all;
+    margin-left: 12px;
+    &:hover {
+        transform: scale(1.1);
+    }
 }
 </style>
