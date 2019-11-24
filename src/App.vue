@@ -20,7 +20,8 @@ h3 {
   margin-bottom: 0;
 }
 
-label {
+label,
+.label {
   display: block;
   text-transform: uppercase;
   font-size: 12px;
@@ -45,6 +46,15 @@ button,
   color: #FFFFFF;
   font-size: 16px;
   cursor: pointer;
+
+  &-light {
+    background-color: #ebf0ff;
+    border: none;
+    height: 40px;
+    width: unset;
+    padding: 0 30px;
+    color: #000000;
+  }
 }
 
 #platform {
@@ -79,6 +89,10 @@ button,
     }
 }
 
+.st-text-grey {
+  color:#BCBCBC;
+}
+
 .st-flex {
     display: flex;
 }
@@ -94,8 +108,20 @@ button,
     justify-content: center;
 }
 
+.st-text-l {
+    text-align: left;
+}
+
 .st-text-c {
   text-align: center;
+}
+
+.st-text-r {
+    text-align: right;
+}
+
+.st-border-b {
+    border-bottom: 1px solid #ebf0ff;
 }
 
 .slide-rl-enter-active,

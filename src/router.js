@@ -2,6 +2,8 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import firebase from 'firebase';
 
+import store from './store';
+
 import Platform from './views/Platform.vue';
 import Dashboard from './views/Dashboard.vue';
 
@@ -22,6 +24,9 @@ const router = new Router({
           path: '',
           name: 'dashboard',
           component: Dashboard,
+          beforeEnter(to, from, next) {
+            store.dispatch('NotificationStore/updateNotifications').then(res => next() )
+          }
         }
       ]
     },

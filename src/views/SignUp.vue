@@ -38,6 +38,7 @@ export default {
     methods: {
         signup(e) {
             e.preventDefault();
+            e.stopPropagation();
             
             firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
                 (user) => this.$router.replace('/dashboard'),

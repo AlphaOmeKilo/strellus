@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div id="avatar" @click="showMenu = !showMenu">
+        <div id="avatar" @click="toggleUserMenu">
         </div>
         <transition name="slide-rl" mode="out-in">
             <div v-show="showMenu" id="userMenu">
@@ -17,9 +17,9 @@ import 'firebase/auth';
 
 export default {
     name: "UserMenu",
-    data: () => ({
-        showMenu: false
-    }),
+    props: {
+        showMenu: Boolean
+    },
     methods: {
         signout() {
             firebase.auth().signOut().then(() => {
@@ -28,7 +28,11 @@ export default {
                 // An error occurred
             });
         },
+        toggleUserMenu() {
+            this.$emit('toggle');
+        }
     },
+    
 }
 </script>
 
@@ -39,13 +43,18 @@ export default {
     border-radius: 50%;
     height: 40px;
     width: 40px;
+    transition: 0.25s all;
+    margin-left: 12px;
+    &:hover {
+        transform: scale(1.1);
+    }
 }
 
 #userMenu {
     position: absolute;
     top: 80px;
     right: 0;
-    width: 200px;
+    width: 240px;
     height: calc(100vh - 80px);
     background-color: #533875;
 }

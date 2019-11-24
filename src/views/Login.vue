@@ -41,6 +41,7 @@ export default {
     methods: {
         login(e) {
             e.preventDefault();
+            e.stopPropagation();
             
             firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
                 (user) => {

@@ -12,19 +12,15 @@
 export default {
     name: "PlatformLeftMenu",
     data: () => ({
-        projectList: [{
-                id: 1,
-                name: "Strellus",
-                icon: "strellus"
-            },
+        projectList: [
             {
-                id: 2,
+                id: 1,
                 name: "Dashboard",
                 icon: "dashboard"
             }
             
         ],
-        activeProject: 2
+        activeProject: 1
     })
 }
 </script>
@@ -40,7 +36,7 @@ export default {
     .project-list {
         list-style: none;
         padding: 0;
-        margin: 0;
+        margin: 80px 0;
         li {
             height: 80px;
             width: 80px;
