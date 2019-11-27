@@ -1,8 +1,10 @@
 <template>
     <div class="modal">
         <div class="inner">
-            <!-- <button class="close-button" @click="handleClose"><close-icon/></button> -->
-            hello
+            <div class="st-text-r">
+                <button @click="closeModal" class="button button-light">Cancel</button>
+            </div>
+    
             <slot></slot>
         </div>
     </div>
@@ -10,7 +12,12 @@
 
 <script>
 export default {
-    name: "AddLink"
+    name: "AddLink",
+    methods: {
+        closeModal() {
+            this.$router.push({ name: "dashboard" });
+        }
+    }
 }
 </script>
 
@@ -28,8 +35,11 @@ export default {
 }
 
 .inner {
+    width: 100%;
     background-color: white;
-    width: 800px;
+    max-width: 800px;
     position: relative;
+    border-radius: 4px;
+    padding: 10px;
 }
 </style>
