@@ -2,13 +2,14 @@
   <div class="home">
     <h2>This is the dashboard</h2>
 
-    <transition name="fade" mode="out-in">
+    <!-- <transition name="fade" mode="out-in">
       <router-view v-if="showModal" name="addLink" />
-    </transition>
+    </transition> -->
   </div>
 </template>
 
 <script>
+
 export default {
   name: "Dashboard",
   data: () => ({

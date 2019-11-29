@@ -1,10 +1,6 @@
 <template>
     <div class="modal">
         <div class="inner">
-            <div class="st-text-r">
-                <button @click="closeModal" class="button button-light">Cancel</button>
-            </div>
-    
             <slot></slot>
         </div>
     </div>
@@ -12,12 +8,7 @@
 
 <script>
 export default {
-    name: "AddLink",
-    methods: {
-        closeModal() {
-            this.$router.push({ name: "dashboard" });
-        }
-    }
+    name: "Modal",
 }
 </script>
 

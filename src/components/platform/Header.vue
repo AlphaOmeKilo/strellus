@@ -7,7 +7,7 @@
             </h1>
         </div>
         <div class="st-v-center">
-            <router-link id="addLink" to="/addLink"></router-link>
+            <!-- <router-link id="addLink" to="/addLink"></router-link> -->
             <Notifications :showMenu="notificationMenu" @toggle="toggleNotificationMenu"></Notifications>
             <UserMenu :showMenu="userMenu" @toggle="toggleUserMenu"></UserMenu>
         </div>

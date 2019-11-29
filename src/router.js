@@ -6,7 +6,7 @@ import store from './store';
 
 import Platform from './views/Platform.vue';
 import Dashboard from './views/Dashboard.vue';
-import AddLink from './components/link/AddLink.vue';
+// import AddLink from './components/link/AddLink.vue';
 
 import Project from './views/Project.vue';
 
@@ -34,27 +34,28 @@ const router = new Router({
             store.commit("ProjectStore/setActiveProject", 0);
             store.dispatch('NotificationStore/updateNotifications').then(res => next())
           },
-          children: [
-            {
-              path: "addLink",
-              name: "Add Link",
-              components: {
-                addLink: AddLink
-              },
-              meta: {
-                showModal: true
-              }
-            },
-          ]
+          // children: [
+          //   {
+          //     path: "addLink",
+          //     name: "Add Link",
+          //     components: {
+          //       addLink: Modal
+          //     },
+          //     meta: {
+          //       showModal: true
+          //     }
+          //   },
+          // ]
         },
         {
           path: 'project/:uuid',
           name: 'project',
           component: Project,
           beforeEnter(to, from, next) {
-            const uuid = to.params.uuid;
+            const uuid = parseInt(to.params.uuid);
             store.dispatch('ProjectStore/getProjectStack', { uuid }).then(res => next())
-          }
+          },
+          props: true
         }
       ]
     },
@@ -67,6 +68,11 @@ const router = new Router({
       path: '/signup',
       name: 'signup',
       component: () => import('./views/SignUp.vue'),
+    },
+    {
+      path: '/invite',
+      name: 'invite',
+      component: () => import('./views/Invite.vue'),
     },
     {
       path: '*',

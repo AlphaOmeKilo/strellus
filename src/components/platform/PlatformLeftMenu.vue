@@ -14,18 +14,21 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 export default {
     name: "PlatformLeftMenu",
     data: () => ({
     }),
     methods: {
+
         goToDashboard() {
             this.$router.push({ name: 'dashboard' });
         },
         goToProject(uuid) {
-            this.$router.push({ name: 'project', params: { uuid: uuid}});
+            if(uuid !== this.activeProject) {
+                this.$router.push({ name: 'project', params: { uuid: uuid}});
+            }
         }
     },
     computed: {
