@@ -28,6 +28,7 @@ export default {
         goToProject(uuid) {
             if(uuid !== this.activeProject) {
                 this.$router.push({ name: 'project', params: { uuid: uuid}});
+                this.$store.dispatch("ProjectStore/clearInvitation", { uuid })
             }
         }
     },

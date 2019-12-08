@@ -52,7 +52,7 @@ const router = new Router({
           name: 'project',
           component: Project,
           beforeEnter(to, from, next) {
-            const uuid = parseInt(to.params.uuid);
+            const uuid = to.params.uuid;
             store.dispatch('ProjectStore/getProjectStack', { uuid }).then(res => next())
           },
           props: true

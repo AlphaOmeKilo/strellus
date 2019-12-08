@@ -34,11 +34,32 @@ const ProjectStore = {
          * @param commit: The vuex commit object 
          */
         getProjects({ commit }) {
-            const projectList = [{
-                id: 1,
-                name: "Strellus",
-                icon: "strellus"
-            }];
+
+            let projectList = [];
+
+            firebase.firestore().collection('org_membership').where("user_id", "==", firebase.auth().currentUser.uid).get()
+            .then(result => {
+                result.forEach(doc => {
+                    firebase.firestore().collection('organisations').doc(doc.data().org_id).get()
+                    .then(result => {
+                        const projectData = result.data();
+
+                        projectList.push(
+                            {
+                                id: result.id,
+                                name: projectData.org_name,
+                                new: doc.data().new
+                            }
+                        )
+                    })
+                    .catch(error => {
+
+                    });
+                })
+            })
+            .catch(error => {
+
+            });
 
             commit("setProjects", projectList);
         },
@@ -48,47 +69,78 @@ const ProjectStore = {
          * @param uuid: The uuid of the project
          */
         getProjectStack({ commit }, { uuid }) {
-            const name = uuid === 1 ? "Strellus" : "Other";
-            const projectStack = {
-                name: name,
-                folders: [
-                    {
-                        name: 'folder 1'
-                    },
-                    {
-                        name: 'folder 2'
-                    }
-                ]
-            };
 
-            commit("setActiveProject", uuid);
-            commit("setProjectStack", projectStack);
+            firebase.firestore().collection('organisations')
+                .doc(uuid)
+                .get()
+                .then(result => {
+                    const project = {
+                        name: result.data().org_name
+                    }
+                    commit("setActiveProject", result.id);
+                    commit("setProjectStack", project);
+                })
+                .catch(error => {
+
+                });
         },
         getProjectInvitations({ commit }) {
-            const currentUser = firebase.auth().currentUser;
-
-            // currentUser.email
-
-            // if user email has pending invites
-
             
-            const newProject = {
-                id: 2,
-                name: "My New Workspace",
-                icon: "workspace"
-            }
+            let invitations = [];
 
-            const invitations = [
-                newProject
-            ]
+            firebase.firestore().collection('org_membership')
+                .where("user_id", "==", firebase.auth().currentUser.uid)
+                .where("new", "==", true)
+                .get()
+                .then(result => {
+                    result.forEach(doc => {
+                        firebase.firestore().collection('organisations').doc(doc.data().org_id).get()
+                        .then(result => {
+                            const projectData = result.data();
 
-            commit("addProject", newProject);
+                            invitations.push(
+                                {
+                                    id: result.id,
+                                    name: projectData.org_name
+                                }
+                            )
+                        })
+                        .catch(error => {
+
+                        });
+                    })
+                })
+                .catch(error => {
+
+                });
+
             commit("setInvitations", invitations);
         },
-        clearInvitations({ commit }) {
-            const currentUser = firebase.auth().currentUser;
-
+        async clearInvitation({ commit }, { uuid }) {
             commit("setInvitations", []);
+            firebase.firestore().collection('org_membership')
+                .where("user_id", "==", firebase.auth().currentUser.uid)
+                .where("org_id", "==", uuid)
+                .get()
+                .then(result => {
+                    result.forEach(doc => {
+                        firebase.firestore().collection('org_membership')
+                            .doc(doc.id)
+                            .update({
+                                new: false
+                            })
+                            .then(result => {
+
+                            })
+                            .catch(error => {
+        
+                            });
+                    })
+                    
+                })
+                .catch(error => {
+
+                });
         }
     }
 }

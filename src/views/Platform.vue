@@ -47,14 +47,14 @@ export default {
         Modal
     },
     methods: {
-        ...mapActions("ProjectStore", ["getProjectInvitations", "clearInvitations"]),
+        ...mapActions("ProjectStore", ["getProjectInvitations"]),
 
         closeModal() {
             this.$router.push({ name: "dashboard" });
         },
         goToProject( uuid ) {
             this.$router.push({ name: "project", params: { uuid: uuid } });
-            this.clearInvitations();
+            this.$store.dispatch("ProjectStore/clearInvitation", { uuid } );
         }
 
     },
