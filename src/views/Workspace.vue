@@ -1,6 +1,6 @@
 <template>
     <div>
-        {{ project.name }}
+        {{ workspace.name }}
     </div>
 </template>
 
@@ -8,23 +8,23 @@
 import { mapState, mapActions } from 'vuex';
 
 export default {
-    name: "Project",
+    name: "Workspace",
     data: () => ({
 
     }),
     methods: {
-        ...mapActions("ProjectStore", ["getProjectStack"]),
+        ...mapActions("WorkspaceStore", ["getWorkspaceStack"]),
 
     },
     computed: {
-        ...mapState("ProjectStore", {
-            project: state => state.projectStack
+        ...mapState("WorkspaceStore", {
+            workspace: state => state.workspaceStack
         })
     },
     watch: {
         $route(to, from) {
             const uuid = to.params.uuid;
-            this.getProjectStack({ uuid });
+            this.getWorkspaceStack({ uuid });
         }
     }
 }

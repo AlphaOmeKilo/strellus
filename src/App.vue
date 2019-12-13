@@ -13,49 +13,48 @@ body {
 }
 
 p {
-  margin: 8px 0;
+    margin: 8px 0;
 }
 
 h3 {
-  font-size: 32px;
-  margin-bottom: 0;
+    font-size: 32px;
+    margin-bottom: 0;
 }
 
 label,
 .label {
-  display: block;
-  text-transform: uppercase;
-  font-size: 12px;
-  letter-spacing: 2px;
-  margin: 20px 0 8px;
+    display: block;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 2px;
+    margin: 20px 0 8px;
 }
 
 input {
-  background-color: #ebf0ff;
-  border: 1px solid rgba(83, 56, 117, 1);
-  border-radius: 4px;
-  padding: 4px 8px;
-  font-size: 18px;
+    background-color: #ebf0ff;
+    border: 1px solid rgba(83, 56, 117, 1);
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 18px;
 }
 
 button,
 .button {
-  border-radius: 4px;
-  background-color: #2368d9;
-  height: 50px;
-  width: 100%;
-  color: #FFFFFF;
-  font-size: 16px;
-  cursor: pointer;
-
-  &-light {
-    background-color: #ebf0ff;
-    border: none;
-    height: 40px;
-    width: unset;
-    padding: 0 30px;
-    color: #000000;
-  }
+    border-radius: 4px;
+    background-color: #2368d9;
+    height: 50px;
+    width: 100%;
+    color: #FFFFFF;
+    font-size: 16px;
+    cursor: pointer;
+    &-light {
+        background-color: #ebf0ff;
+        border: none;
+        height: 40px;
+        width: unset;
+        padding: 0 30px;
+        color: #000000;
+    }
 }
 
 #platform {
@@ -91,7 +90,15 @@ button,
 }
 
 .st-text-grey {
-  color:#BCBCBC;
+    color: #BCBCBC;
+}
+
+.st-p-0 {
+    padding: 0;
+}
+
+.st-m-0 {
+    margin: 0;
 }
 
 .st-flex {
@@ -114,7 +121,7 @@ button,
 }
 
 .st-text-c {
-  text-align: center;
+    text-align: center;
 }
 
 .st-text-r {

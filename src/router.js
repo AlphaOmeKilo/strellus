@@ -8,7 +8,7 @@ import Platform from './views/Platform.vue';
 import Dashboard from './views/Dashboard.vue';
 // import AddLink from './components/link/AddLink.vue';
 
-import Project from './views/Project.vue';
+import Workspace from './views/Workspace.vue';
 
 Vue.use(Router);
 
@@ -23,7 +23,7 @@ const router = new Router({
         requiresAuth: true,
       },
       beforeEnter(to, from, next) {
-        store.dispatch('ProjectStore/getProjects').then(res => next())
+        store.dispatch('WorkspaceStore/getWorkspaces').then(res => next())
       },
       children: [
         {
@@ -31,7 +31,7 @@ const router = new Router({
           name: 'dashboard',
           component: Dashboard,
           beforeEnter(to, from, next) {
-            store.commit("ProjectStore/setActiveProject", 0);
+            store.commit("WorkspaceStore/setActiveWorkspace", 0);
             store.dispatch('NotificationStore/updateNotifications').then(res => next())
           },
           // children: [
@@ -48,12 +48,12 @@ const router = new Router({
           // ]
         },
         {
-          path: 'project/:uuid',
-          name: 'project',
-          component: Project,
+          path: 'workspace/:uuid',
+          name: 'workspace',
+          component: Workspace,
           beforeEnter(to, from, next) {
             const uuid = to.params.uuid;
-            store.dispatch('ProjectStore/getProjectStack', { uuid }).then(res => next())
+            store.dispatch('WorkspaceStore/getWorkspaceStack', { uuid }).then(res => next())
           },
           props: true
         }

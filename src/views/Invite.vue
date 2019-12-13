@@ -4,9 +4,11 @@
     
         </div>
         <div class="signup-form st-vh-center">
-            <h1 id="platform-logo"><router-link to="/">strellus</router-link></h1>
-            <div>
-                <h3>You've been invited to Join Strellus! Sign up below!</h3>
+            <h1 id="platform-logo">
+                <router-link to="/">strellus</router-link>
+            </h1>
+            <div class="signup-form__fields">
+                <h3>You've been invited to Join your team on Strellus! <br/> Sign up below!</h3>
                 <form @submit="signup">
                     <label for="email">Email Address</label>
                     <input name="email" type="text" v-model="email"><br>
@@ -27,7 +29,6 @@
 import Vue from 'vue';
 import firebase from 'firebase/app';
 import 'firebase/auth';
-
 export default {
     name: 'Invite',
     data() {
@@ -40,7 +41,7 @@ export default {
         signup(e) {
             e.preventDefault();
             e.stopPropagation();
-            
+
             firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
                 (user) => this.$router.replace('/dashboard'),
                 (err) => alert('Oops. ' + err.message),
@@ -66,6 +67,11 @@ export default {
     }
     &-form {
         text-align: left;
+
+        &__fields {
+            max-width: 75%;
+            width: 320px;
+        }
     }
     &-img {
         background-image: url('../assets/max-bender-unsplash.jpg');

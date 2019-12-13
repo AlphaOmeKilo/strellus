@@ -2,14 +2,16 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 
 import NotificationStore from './stores/NotificationStore';
-import ProjectStore from './stores/ProjectStore';
+import WorkspaceStore from './stores/WorkspaceStore';
+import InvitationStore from './stores/InvitationStore';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   modules: {
     NotificationStore,
-    ProjectStore
+    WorkspaceStore,
+    InvitationStore
   },
   state: {
 

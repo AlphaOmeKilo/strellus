@@ -13,7 +13,7 @@
                             <div class="temp-image"></div>
                         </div>
                         <div class="st-text-l">
-                            <p class="label st-text-grey">{{notification.project}} / {{notification.doctype}}</p>
+                            <p class="label st-text-grey">{{notification.workspace}} / {{notification.doctype}}</p>
                             <p>{{notification.message}}</p>
                             <p class="label st-text-grey">{{notification.timestamp}}</p>
                         </div>

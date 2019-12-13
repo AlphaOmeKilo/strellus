@@ -12,17 +12,9 @@
                 >
                     <div class="st-vh-center">
                         <h2>You Have been added to the {{ invitation.name }} workspace!</h2>
-                        <button @click="goToProject(`${invitation.id}`)" class="button button-light">View Project</button>
+                        <button @click="goToWorkspace(`${invitation.id}`)" class="button button-light">View Workspace</button>
                     </div>
                 </div>
-                <!-- <div>
-                    <h2>You Have been added to the {{}}</h2>
-                </div>
-                You Have been added to a project!
-                <button @click="goToProject()" class="button button-light">View Project</button>
-                <div class="st-text-r">
-                    <button @click="closeModal" class="button button-light">Cancel</button>
-                </div> -->
             </Modal>
         </transition>
     </div>
@@ -47,24 +39,26 @@ export default {
         Modal
     },
     methods: {
-        ...mapActions("ProjectStore", ["getProjectInvitations"]),
+        ...mapActions("InvitationStore", ["getWorkspaceInvitations"]),
+        ...mapActions("WorkspaceStore", ["getWorkspaces"]),
 
         closeModal() {
             this.$router.push({ name: "dashboard" });
         },
-        goToProject( uuid ) {
-            this.$router.push({ name: "project", params: { uuid: uuid } });
-            this.$store.dispatch("ProjectStore/clearInvitation", { uuid } );
+        goToWorkspace( uuid ) {
+            this.getWorkspaces();
+            this.$router.push({ name: "workspace", params: { uuid: uuid } });
+            this.$store.dispatch("InvitationStore/clearInvitation", { uuid } );
         }
 
     },
     computed: {
-        ...mapState("ProjectStore", {
+        ...mapState("InvitationStore", {
             invitations: state => state.invitations
         })
     },
     mounted() {
-        this.getProjectInvitations();
+        this.getWorkspaceInvitations();
     }
 };
 </script>

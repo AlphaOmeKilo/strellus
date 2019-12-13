@@ -18,7 +18,7 @@ const NotificationStore = {
             const notificationList = [{
                 id: 1,
                 read: false,
-                project: "Strellus",
+                workspace: "Strellus",
                 doctype: "Invision",
                 chain: "Design",
                 icon_class: "default",
@@ -27,7 +27,7 @@ const NotificationStore = {
             },{
                 id: 2,
                 read: false,
-                project: "Strellus",
+                workspace: "Strellus",
                 doctype: "Github",
                 chain: "repo",
                 icon_class: "default",
@@ -36,7 +36,7 @@ const NotificationStore = {
             },{
                 id: 3,
                 read: false,
-                project: "Strellus",
+                workspace: "Strellus",
                 doctype: "Google",
                 chain: "logins",
                 icon_class: "default",

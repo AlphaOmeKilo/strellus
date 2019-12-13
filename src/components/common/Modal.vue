@@ -19,6 +19,7 @@ export default {
     left: 0;
     height: 100vh;
     width: 100vw;
+    z-index: 1000;
     background-color: fade-out(black, 0.2);
     display: flex;
     align-items: center;

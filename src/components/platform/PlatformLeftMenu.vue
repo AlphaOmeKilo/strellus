@@ -1,12 +1,17 @@
 <template>
     <div id="platformLeftMenu">
-        <ul class="project-list">
-            <li :class="[{ active: activeProject === 0}, 'st-vh-center dashboard']" @click="goToDashboard()">
-                <div class="project-icon"></div>
+        <ul class="workspace-list">
+            <li :class="[{ active: activeWorkspace === 0}, 'st-vh-center dashboard']" @click="goToDashboard()">
+                <div class="workspace-icon"></div>
             </li>
-            <template v-for="(project) in projects">
-                <li :class="[{ active: activeProject === project.id}, 'st-vh-center']" :key="project.name" @click="goToProject(project.id)">
-                    <div class="project-icon"></div>
+            <template v-for="(workspace) in privateWorkspaces">
+                <li :class="[{ active: activeWorkspace === workspace.id}, 'st-vh-center']" :key="workspace.id" @click="goToWorkspace(workspace.id)">
+                    <div class="workspace-icon"></div>
+                </li>
+            </template>
+            <template v-for="(workspace) in sharedWorkspaces">
+                <li :class="[{ active: activeWorkspace === workspace.id}, 'st-vh-center']" :key="workspace.id" @click="goToWorkspace(workspace.id)">
+                    <div class="workspace-icon"></div>
                 </li>
             </template>
         </ul>
@@ -25,15 +30,26 @@ export default {
         goToDashboard() {
             this.$router.push({ name: 'dashboard' });
         },
-        goToProject(uuid) {
-            if(uuid !== this.activeProject) {
-                this.$router.push({ name: 'project', params: { uuid: uuid}});
-                this.$store.dispatch("ProjectStore/clearInvitation", { uuid })
+        goToWorkspace(uuid) {
+            if(uuid !== this.activeWorkspace) {
+                this.$router.push({ name: 'workspace', params: { uuid: uuid}});
+                this.$store.dispatch("InvitationStore/clearInvitation", { uuid })
             }
         }
     },
     computed: {
-        ...mapState("ProjectStore", ["projects", "activeProject"]),
+        ...mapState("WorkspaceStore", ["workspaces", "activeWorkspace"]),
+
+        sharedWorkspaces() {
+            return this.workspaces.filter( workspace => {
+                return !workspace.private;
+            })
+        },
+        privateWorkspaces() {
+            return this.workspaces.filter( workspace => {
+                return workspace.private;
+            })
+        }
     }
 }
 </script>
@@ -46,7 +62,7 @@ export default {
     left: 0;
     width: 80px;
     height: calc(100vh - 80px);
-    .project {
+    .workspace {
         &-icon {
             cursor: pointer;
             background-color: #533875;
