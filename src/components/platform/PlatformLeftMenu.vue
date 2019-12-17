@@ -1,19 +1,23 @@
 <template>
     <div id="platformLeftMenu">
         <ul class="workspace-list">
-            <li :class="[{ active: activeWorkspace === 0}, 'st-vh-center dashboard']" @click="goToDashboard()">
+            <li :class="[{ active: activeWorkspace === '0'}, 'st-vh-center dashboard']" @click="goToDashboard()">
                 <div class="workspace-icon"></div>
             </li>
-            <template v-for="(workspace) in privateWorkspaces">
-                <li :class="[{ active: activeWorkspace === workspace.id}, 'st-vh-center']" :key="workspace.id" @click="goToWorkspace(workspace.id)">
-                    <div class="workspace-icon"></div>
-                </li>
-            </template>
-            <template v-for="(workspace) in sharedWorkspaces">
-                <li :class="[{ active: activeWorkspace === workspace.id}, 'st-vh-center']" :key="workspace.id" @click="goToWorkspace(workspace.id)">
-                    <div class="workspace-icon"></div>
-                </li>
-            </template>
+            <transition-group name="slide-lr">
+                <template v-for="(workspace) in privateWorkspaces">
+                    <li :class="[{ active: activeWorkspace === workspace.id}, 'st-vh-center']" :key="workspace.id" @click="goToWorkspace(workspace.id)">
+                        <div class="workspace-icon"></div>
+                    </li>
+                </template>
+            </transition-group>
+            <transition-group name="slide-lr">
+                <template v-for="(workspace) in sharedWorkspaces">
+                    <li :class="[{ active: activeWorkspace === workspace.id}, 'st-vh-center']" :key="workspace.id" @click="goToWorkspace(workspace.id)">
+                        <div class="workspace-icon"></div>
+                    </li>
+                </template>
+            </transition-group>
         </ul>
     </div>
 </template>

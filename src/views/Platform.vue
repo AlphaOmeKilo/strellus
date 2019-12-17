@@ -2,7 +2,9 @@
     <div id="platform">
         <Header :title="title"></Header>
         <PlatformLeftMenu></PlatformLeftMenu>
-        <router-view></router-view>
+        <transition name="fade" mode="out-in">
+            <router-view></router-view>
+        </transition>
     
         <transition name="fade" mode="out-in">
             <Modal v-if="invitations.length > 0">

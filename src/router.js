@@ -22,8 +22,9 @@ const router = new Router({
       meta: {
         requiresAuth: true,
       },
-      beforeEnter(to, from, next) {
-        store.dispatch('WorkspaceStore/getWorkspaces').then(res => next())
+      async beforeEnter(to, from, next) {
+        await store.dispatch('WorkspaceStore/getWorkspaces');
+        store.dispatch('NotificationStore/updateNotifications').then(res => next())
       },
       children: [
         {
@@ -31,8 +32,8 @@ const router = new Router({
           name: 'dashboard',
           component: Dashboard,
           beforeEnter(to, from, next) {
-            store.commit("WorkspaceStore/setActiveWorkspace", 0);
-            store.dispatch('NotificationStore/updateNotifications').then(res => next())
+            store.commit("WorkspaceStore/setActiveWorkspace", "0");
+            next();
           },
           // children: [
           //   {

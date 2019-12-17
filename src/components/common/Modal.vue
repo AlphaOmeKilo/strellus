@@ -1,6 +1,10 @@
 <template>
     <div class="modal">
         <div class="inner">
+            <div class="st-text-r">
+                <button @click="closeModal" class="button button-light">X</button>
+            </div>
+    
             <slot></slot>
         </div>
     </div>
@@ -9,6 +13,11 @@
 <script>
 export default {
     name: "Modal",
+    methods: {
+        closeModal() {
+            this.$emit('close');
+        }
+    }
 }
 </script>
 

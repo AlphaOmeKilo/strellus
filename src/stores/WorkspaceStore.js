@@ -1,4 +1,5 @@
 import firebase from 'firebase';
+import Vue from 'vue';
 
 const WorkspaceStore = {
     namespaced: true,
@@ -8,14 +9,18 @@ const WorkspaceStore = {
         workspaceStack: {},
     },
     getters: {
-
+        getWorkspaceNameById: state => id => {
+            return state.workspaces.filter((workspace) => {
+                return workspace.id === id
+            });
+        }
     },
     mutations: {
-        setWorkspaces(state, payload) {
-            state.workspaces = payload;
-        },
         addWorkspace(state, payload) {
-            state.workspaces.push(payload);
+            Vue.set(state.workspaces, state.workspaces.length, payload);
+        },
+        clearWorkspaces(state) {
+            state.workspaces = [];
         },
         setWorkspaceStack(state, payload) {
             state.workspaceStack = payload;
@@ -31,7 +36,7 @@ const WorkspaceStore = {
          */
         getWorkspaces({ commit }) {
 
-            let workspaceList = [];
+            commit("clearWorkspaces");
 
             firebase.firestore().collection('workspace_membership').where("user_id", "==", firebase.auth().currentUser.uid).get()
             .then(result => {
@@ -40,15 +45,13 @@ const WorkspaceStore = {
                     .then(result => {
                         const workspaceData = result.data();
 
-                        workspaceList.push(
-                            {
-                                id: result.id,
-                                name: workspaceData.name,
-                                new: doc.data().new,
-                                admin: doc.data().admin,
-                                private: doc.data().private
-                            }
-                        )
+                        commit("addWorkspace", {
+                            id: result.id,
+                            name: workspaceData.name,
+                            new: doc.data().new,
+                            admin: doc.data().admin,
+                            private: doc.data().private
+                        });
                     })
                     .catch(error => {
 
@@ -59,7 +62,7 @@ const WorkspaceStore = {
 
             });
 
-            commit("setWorkspaces", workspaceList);
+            
         },
         /**
          * Get the details of a workspace based on a given  workspace uuid

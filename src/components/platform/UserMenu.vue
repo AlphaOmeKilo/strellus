@@ -13,52 +13,32 @@
             </div>
         </transition>
         <transition name="fade" mode="out-in">
-            <Modal v-if="showInviteModal">
-                <div>
-                    <h2>Invite a user to join a workspace.</h2>
-    
-                    <form @submit="sendInvite">
-                        <div class="st-vh-center">
-                            <label class="st-m-0">Select the Workspace:</label>
-                            <select v-model="selected">
-                        <option v-for="(workspace) in sharedWorkspaces" :key="`invite_${workspace.id}`" :value="workspace.id">{{ workspace.name }}</option>
-                    </select>
-    
-                        </div>
-    
-                        <label for="email">Email Address</label>
-                        <input name="email" type="text" v-model="email"><br/><br/>
-                        <input class="button" type="submit" value="Send Invite">
-                    </form>
-    
-                </div>
-            </Modal>
+            <invite v-if="showInviteModal" @close="showInviteModal = false" :sharedWorkspaces="sharedWorkspaces" :activeWorkspace="activeWorkspace"></invite>
         </transition>
     </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import firebase from 'firebase/app';
 
-import Modal from "../common/Modal.vue";
-import { mapState, mapActions } from 'vuex';
+import Invite from '../../components/user/Invite.vue';
+
+
 
 export default {
     name: "UserMenu",
     data: () => ({
         showInviteModal: false,
         selected: "",
-        email: "",
     }),
     props: {
         showMenu: Boolean
     },
     components: {
-        Modal
+        Invite
     },
     methods: {
-        ...mapActions("InvitationStore", ["inviteUserToWorkspace"]),
-
         signout() {
             firebase.auth().signOut().then(() => {
                 this.$router.replace('/login');
@@ -68,23 +48,14 @@ export default {
         },
         inviteUser() {
             this.showInviteModal = !this.showInviteModal;
-            this.selected = this.activeWorkspace !== 0 ? this.activeWorkspace : this.sharedWorkspaces[0].id;
         },
-        sendInvite(e) {
-            e.preventDefault();
-            e.stopPropagation();
 
-            const userInvite = {
-                email: this.email,
-                workspace_id: this.selected
-            }
-
-            this.inviteUserToWorkspace(userInvite);
-
-            this.showInviteModal = false;
-        },
         toggleUserMenu() {
             this.$emit('toggle');
+        },
+
+        updateSelected(value) {
+            this.selected = value;
         }
     },
     computed: {
