@@ -14,6 +14,7 @@ const config = {
   authDomain: 'strellus-68be0.firebaseapp.com',
   databaseURL: 'https://strellus-68be0.firebaseio.com',
   projectId: 'strellus-68be0',
+  storageBucket: 'strellus-68be0.appspot.com'
 };
 
 firebase.initializeApp(config);

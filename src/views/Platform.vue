@@ -1,7 +1,10 @@
 <template>
     <div id="platform">
         <Header :title="title"></Header>
-        <PlatformLeftMenu></PlatformLeftMenu>
+        <transition name="slide-lr" mode="out-in">
+            <PlatformLeftMenu v-if="leftMenuActive"></PlatformLeftMenu>
+        </transition>
+
         <transition name="fade" mode="out-in">
             <router-view></router-view>
         </transition>
@@ -33,7 +36,8 @@ import Modal from "../components/common/Modal.vue";
 export default {
     name: "Platform",
     data: () => ({
-        title: "strellus"
+        title: "strellus",
+        leftMenuActive: true
     }),
     components: {
         Header,
@@ -59,7 +63,13 @@ export default {
             invitations: state => state.invitations
         })
     },
+    watch: {
+        $route(to, from) {
+            this.leftMenuActive = !to.meta.leftMenuDisable;
+        }
+    },
     mounted() {
+        this.leftMenuActive = !this.$route.meta.leftMenuDisable;
         this.getWorkspaceInvitations();
     }
 };

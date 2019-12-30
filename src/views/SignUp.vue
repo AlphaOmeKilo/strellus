@@ -7,15 +7,18 @@
             <h1 id="platform-logo"><router-link to="/">strellus</router-link></h1>
             <div>
                 <h3>Create an account</h3>
+                <transition name="slide-lr" mode="out-in">
+                    <p key="error" v-if="error" class="error">{{ errorMessage }}</p>
+                </transition>
                 <form @submit="signup">
                     <label for="email">Email Address</label>
                     <input name="email" type="text" v-model="email"><br>
                     <label for="password">Password</label>
                     <input name="password" type="password" v-model="password"><br>
-                    <input class="button" type="submit" value="Sign In">
+                    <input :disabled="disabled" class="button" type="submit" value="Sign Up">
                 </form>
                 <p class="st-text-c">Already have an account?
-                    <router-link to="/login">Login</router-link>
+                    <router-link to="/login">Sign In</router-link>
                 </p>
             </div>
         </div>
@@ -33,16 +36,26 @@ export default {
         return {
             email: '',
             password: '',
+            error: false,
+            errorMessage: '',
+            disabled: false
         };
     },
     methods: {
         signup(e) {
+            this.disabled = true;
+            this.error = false;
             e.preventDefault();
             e.stopPropagation();
             
-            firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
+            firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
+            .then(
                 (user) => this.$router.replace('/dashboard'),
-                (err) => alert('Oops. ' + err.message),
+                (err) => {
+                    this.errorMessage = err.message;
+                    this.error = true;
+                    this.disabled = false;
+                },
             );
         },
     },
@@ -65,6 +78,11 @@ export default {
     }
     &-form {
         text-align: left;
+        p {
+            width: 300px;
+            height: 44px;
+            margin-bottom: 40px;
+        }
     }
     &-img {
         background-image: url('../assets/max-bender-unsplash.jpg');

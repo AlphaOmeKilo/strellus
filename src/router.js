@@ -6,9 +6,9 @@ import store from './store';
 
 import Platform from './views/Platform.vue';
 import Dashboard from './views/Dashboard.vue';
-// import AddLink from './components/link/AddLink.vue';
 
 import Workspace from './views/Workspace.vue';
+import Profile from './views/Profile.vue';
 
 Vue.use(Router);
 
@@ -23,6 +23,7 @@ const router = new Router({
         requiresAuth: true,
       },
       async beforeEnter(to, from, next) {
+        await store.dispatch('UserStore/getProfileImage');
         await store.dispatch('WorkspaceStore/getWorkspaces');
         store.dispatch('NotificationStore/updateNotifications').then(res => next())
       },
@@ -35,18 +36,6 @@ const router = new Router({
             store.commit("WorkspaceStore/setActiveWorkspace", "0");
             next();
           },
-          // children: [
-          //   {
-          //     path: "addLink",
-          //     name: "Add Link",
-          //     components: {
-          //       addLink: Modal
-          //     },
-          //     meta: {
-          //       showModal: true
-          //     }
-          //   },
-          // ]
         },
         {
           path: 'workspace/:uuid',
@@ -57,6 +46,14 @@ const router = new Router({
             store.dispatch('WorkspaceStore/getWorkspaceStack', { uuid }).then(res => next())
           },
           props: true
+        },
+        {
+          path: 'profile',
+          name: 'profile',
+          component: Profile,
+          meta: {
+            leftMenuDisable: true
+          }
         }
       ]
     },

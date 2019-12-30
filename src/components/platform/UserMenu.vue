@@ -1,14 +1,15 @@
 <template>
     <div>
-        <div id="avatar" @click="toggleUserMenu">
-        </div>
+        <img id="avatar" @click="toggleUserMenu" :src="profileImageUrl">
+        
         <transition name="slide-rl" mode="out-in">
             <div v-show="showMenu" id="userMenu">
                 <div class="st-text-r st-border-b">
                     <button @click="signout" class="button button-light">Sign Out</button>
                 </div>
                 <div class="st-text-r">
-                    <button @click="inviteUser" class="button button-light">Invite Users</button>
+                    <button @click="goToMyProfile" class="button button-flat">My Profile</button>
+                    <button @click="inviteUser" class="button button-flat">Invite Users</button>
                 </div>
             </div>
         </transition>
@@ -23,8 +24,6 @@ import { mapState } from 'vuex';
 import firebase from 'firebase/app';
 
 import Invite from '../../components/user/Invite.vue';
-
-
 
 export default {
     name: "UserMenu",
@@ -50,6 +49,11 @@ export default {
             this.showInviteModal = !this.showInviteModal;
         },
 
+        goToMyProfile() {
+            this.$emit('toggle');
+            this.$router.push({name: 'profile'});
+        },
+
         toggleUserMenu() {
             this.$emit('toggle');
         },
@@ -64,6 +68,10 @@ export default {
             activeWorkspace: state => state.activeWorkspace
         }),
 
+        ...mapState("UserStore", {
+            profileImageUrl: state => state.profileImageUrl
+        }),
+
         sharedWorkspaces() {
             return this.workspaces.filter(workspace => {
                 return !workspace.private;
@@ -76,6 +84,7 @@ export default {
 
 <style lang="scss" scoped>
 #avatar {
+    display: block;
     cursor: pointer;
     background-color: #533875;
     border-radius: 50%;
@@ -97,6 +106,10 @@ export default {
     background-color: #FFFFFF;
     button {
         margin: 20px 20px 20px 0;
+
+        &.button-flat {
+             margin: 20px 0 0 0;
+        }
     }
 }
 </style>

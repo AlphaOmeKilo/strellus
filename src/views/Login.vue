@@ -6,15 +6,19 @@
                     <router-link to="/">strellus</router-link>
                 </h1>
                 <h3>Sign In to Strellus</h3>
-                <p>Please enter your credentials to proceed</p>
+                <transition name="slide-lr" mode="out-in">
+                    <p key="no-error" v-if="!error">Please enter your credentials to proceed</p>
+                    <p key="error" v-else class="error">{{ errorMessage }}</p>
+                </transition>
+    
                 <form @submit="login">
                     <label for="email">Email Address</label>
                     <input name="email" type="text" v-model="email"><br>
                     <label for="password">Password</label>
                     <input name="password" type="password" v-model="password"><br>
-                    <input class="button" type="submit" value="Sign In">
+                    <input :disabled="disabled" class="button" type="submit" value="Sign In">
                 </form>
-
+    
                 <p class="st-text-c">Don't have an account?
                     <router-link to="/signup">Sign Up!</router-link>
                 </p>
@@ -36,19 +40,26 @@ export default {
         return {
             email: '',
             password: '',
+            error: false,
+            errorMessage: '',
+            disabled: false
         };
     },
     methods: {
         login(e) {
+            this.disabled = true;
+            this.error = false;
             e.preventDefault();
             e.stopPropagation();
-            
+
             firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
                 (user) => {
                     this.$router.replace('dashboard');
                 },
                 (err) => {
-                    alert('Oops. ' + err)
+                    this.errorMessage = err.message;
+                    this.error = true;
+                    this.disabled = false;
                 },
             );
         },
@@ -72,6 +83,8 @@ export default {
     &-form {
         text-align: left;
         p {
+            width: 300px;
+            height: 44px;
             margin-bottom: 40px;
         }
     }

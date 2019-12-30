@@ -12,6 +12,16 @@ body {
     overflow: hidden;
 }
 
+.single-card-page {
+    height: calc(100vh - 80px);
+    width: 100vw;
+    .card {
+        width: calc(100% - 40px);
+        height: calc(100% - 40px);
+        background-color: white;
+    }
+}
+
 p {
     margin: 8px 0;
 }
@@ -19,6 +29,10 @@ p {
 h3 {
     font-size: 32px;
     margin-bottom: 0;
+}
+
+.error {
+    color: #F20000
 }
 
 label,
@@ -49,6 +63,15 @@ button,
     cursor: pointer;
     &-light {
         background-color: #ebf0ff;
+        border: none;
+        height: 40px;
+        width: unset;
+        padding: 0 30px;
+        color: #000000;
+    }
+
+    &-flat {
+        background-color: transparent;
         border: none;
         height: 40px;
         width: unset;
