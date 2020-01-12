@@ -21,6 +21,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import firebase from 'firebase/app';
 import 'firebase/auth';
 
 import Invite from '../../components/user/Invite.vue';
