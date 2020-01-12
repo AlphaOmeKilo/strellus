@@ -10,7 +10,7 @@
                 <transition-group name="slide-rl">
                     <div v-show="showMenu" v-for="(notification, index) in notifications" :key="`notification_${index}`" class="notification st-border-b st-v-center">
                         <div :class="`notification-icon notification-${notification.icon_class}`">
-                            <div class="temp-image"></div>
+                            <img :src="notification.avatar" class="avatar"/>
                         </div>
                         <div class="st-text-l">
                             <p class="label st-text-grey">{{notification.workspace}} / {{notification.doctype}}</p>
@@ -86,10 +86,21 @@ export default {
     }
 }
 
-.temp-image {
+.avatar {
+    position: relative;
     background-color: #533875;
     border-radius: 50%;
     height: 40px;
     width: 40px;
+
+    .temp-icon {
+        position: absolute;
+        bottom: -4px;
+        right: -4px;
+        background-color: green;
+        border-radius: 50%;
+        height: 20px;
+        width: 20px;
+    }
 }
 </style>

@@ -40,9 +40,10 @@ const WorkspaceStore = {
      * Get the profile image of the user if it exists
      * @param commit: The vuex commit object
      */
-    getProfileImage({ commit }) {
+    getProfileImage({ commit }, uuid) {
+      const userID = uuid ? uuid : firebase.auth().currentUser.uid;
       return new Promise((resolve, reject) => {
-        firebase.firestore().collection('profiles').where("user_id", "==", firebase.auth().currentUser.uid)
+        firebase.firestore().collection('profiles').where("user_id", "==", userID)
         .get()
         .then(result => {
           if(result.docs[0]) {
@@ -50,8 +51,8 @@ const WorkspaceStore = {
             .get()
             .then(profile => {
               const profileImageUrl = profile.data().profile_image_url;
-              commit("setProfileImageUrl", profileImageUrl);
-              resolve();
+              if(!uuid) commit("setProfileImageUrl", profileImageUrl);
+              resolve(profileImageUrl);
             })
             .catch(error => {
               reject();
