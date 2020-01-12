@@ -35,34 +35,33 @@ const WorkspaceStore = {
          * @param commit: The vuex commit object 
          */
         getWorkspaces({ commit }) {
-
-            commit("clearWorkspaces");
-
-            firebase.firestore().collection('workspace_membership').where("user_id", "==", firebase.auth().currentUser.uid).get()
-            .then(result => {
-                result.forEach(doc => {
-                    firebase.firestore().collection('workspaces').doc(doc.data().workspace_id).get()
-                    .then(result => {
-                        const workspaceData = result.data();
-
-                        commit("addWorkspace", {
-                            id: result.id,
-                            name: workspaceData.name,
-                            new: doc.data().new,
-                            admin: doc.data().admin,
-                            private: doc.data().private
+            return new Promise((resolve, reject) => {
+                commit("clearWorkspaces");
+                firebase.firestore().collection('workspace_membership').where("user_id", "==", firebase.auth().currentUser.uid).get()
+                .then(result => {
+                    result.forEach(doc => {
+                        firebase.firestore().collection('workspaces').doc(doc.data().workspace_id).get()
+                        .then(result => {
+                            const workspaceData = result.data();
+    
+                            commit("addWorkspace", {
+                                id: result.id,
+                                name: workspaceData.name,
+                                new: doc.data().new,
+                                admin: doc.data().admin,
+                                private: doc.data().private
+                            });
+                            resolve();
+                        })
+                        .catch(error => {
+                            reject();
                         });
                     })
-                    .catch(error => {
-
-                    });
                 })
-            })
-            .catch(error => {
-
+                .catch(error => {
+                    reject();
+                });
             });
-
-            
         },
         /**
          * Get the details of a workspace based on a given  workspace uuid

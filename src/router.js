@@ -22,10 +22,15 @@ const router = new Router({
       meta: {
         requiresAuth: true,
       },
-      async beforeEnter(to, from, next) {
-        await store.dispatch('UserStore/getProfileImage');
-        await store.dispatch('WorkspaceStore/getWorkspaces');
-        store.dispatch('NotificationStore/updateNotifications').then(res => next())
+      beforeEnter(to, from, next) {
+        Promise.all([
+          store.dispatch('UserStore/getProfileImage'),
+          store.dispatch('WorkspaceStore/getWorkspaces'),
+        ]).finally(() => {
+          store.dispatch('NotificationStore/updateNotifications');
+          next();
+        })
+        
       },
       children: [
         {
