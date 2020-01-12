@@ -1,7 +1,7 @@
 <template>
     <div>
         <img id="avatar" @click="toggleUserMenu" :src="profileImageUrl">
-        
+    
         <transition name="slide-rl" mode="out-in">
             <div v-show="showMenu" id="userMenu">
                 <div class="st-text-r st-border-b">
@@ -21,7 +21,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import firebase from 'firebase/app';
+import 'firebase/auth';
 
 import Invite from '../../components/user/Invite.vue';
 
@@ -51,7 +51,7 @@ export default {
 
         goToMyProfile() {
             this.$emit('toggle');
-            this.$router.push({name: 'profile'});
+            this.$router.push({ name: 'profile' });
         },
 
         toggleUserMenu() {
@@ -106,9 +106,8 @@ export default {
     background-color: #FFFFFF;
     button {
         margin: 20px 20px 20px 0;
-
         &.button-flat {
-             margin: 20px 0 0 0;
+            margin: 20px 0 0 0;
         }
     }
 }
