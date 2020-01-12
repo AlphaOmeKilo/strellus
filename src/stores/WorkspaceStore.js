@@ -12,9 +12,13 @@ const WorkspaceStore = {
     },
     getters: {
         getWorkspaceNameById: state => id => {
-            return state.workspaces.filter((workspace) => {
+            const filteredWorkspaces = state.workspaces.filter((workspace) => {
                 return workspace.id === id
             });
+
+            if(filteredWorkspaces[0]) {
+                return filteredWorkspaces[0].name;
+            }
         }
     },
     mutations: {

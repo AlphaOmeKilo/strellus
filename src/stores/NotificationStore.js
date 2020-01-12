@@ -66,11 +66,7 @@ const NotificationStore = {
 }; 
 
 const getWorkspaceName = (id, rootGetters) => { 
-    const workspace = rootGetters["WorkspaceStore/getWorkspaceNameById"](id);
-
-    if(workspace[0]) {
-        return workspace[0].name;
-    }
+    return rootGetters["WorkspaceStore/getWorkspaceNameById"](id);
 }
 
 export default NotificationStore;
