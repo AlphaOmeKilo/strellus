@@ -1,7 +1,10 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
+import 'firebase/functions'
 import Vue from 'vue';
+
+import { getAPI } from "@/stores/helpers/apiHelpers.js";
 
 const WorkspaceStore = {
     namespaced: true,
@@ -28,6 +31,9 @@ const WorkspaceStore = {
         clearWorkspaces(state) {
             state.workspaces = [];
         },
+        setWorkspaces(state, payload) {
+            state.workspaces = payload;
+        },
         setWorkspaceStack(state, payload) {
             state.workspaceStack = payload;
         },
@@ -40,34 +46,10 @@ const WorkspaceStore = {
          * Get the list of workspaces the user is part of
          * @param commit: The vuex commit object 
          */
-        getWorkspaces({ commit }) {
-            return new Promise((resolve, reject) => {
-                commit("clearWorkspaces");
-                firebase.firestore().collection('workspace_membership').where("user_id", "==", firebase.auth().currentUser.uid).get()
-                .then(result => {
-                    result.forEach(doc => {
-                        firebase.firestore().collection('workspaces').doc(doc.data().workspace_id).get()
-                        .then(result => {
-                            const workspaceData = result.data();
-    
-                            commit("addWorkspace", {
-                                id: result.id,
-                                name: workspaceData.name,
-                                new: doc.data().new,
-                                admin: doc.data().admin,
-                                private: doc.data().private
-                            });
-                            resolve();
-                        })
-                        .catch(error => {
-                            reject();
-                        });
-                    })
-                })
-                .catch(error => {
-                    reject();
-                });
-            });
+        async getWorkspaces({ commit }) {
+            commit("clearWorkspaces");
+            const workspaces = await getAPI("workspaces");
+            commit("setWorkspaces", workspaces.data);
         },
         /**
          * Get the details of a workspace based on a given  workspace uuid

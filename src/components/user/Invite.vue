@@ -7,9 +7,8 @@
                 <div class="st-vh-center">
                     <label class="st-m-0">Select the Workspace:</label>
                     <select v-model="selected">
-                                <option v-for="(workspace) in sharedWorkspaces" :key="`invite_${workspace.id}`" :value="workspace.id">{{ workspace.name }}</option>
-                            </select>
-    
+                        <option v-for="(workspace) in sharedWorkspaces" :key="`invite_${workspace.id}`" :value="workspace.id">{{ workspace.name }}</option>
+                    </select>
                 </div>
     
                 <label for="email">Email Address</label>

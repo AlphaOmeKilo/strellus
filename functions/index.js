@@ -1,61 +1,73 @@
-// The Cloud Functions for Firebase SDK to create Cloud Functions and setup triggers.
 const functions = require('firebase-functions');
-const os = require('os');
-const path = require('path');
+const admin = require('firebase-admin');
 const cors = require('cors')({origin: true});
-const Busyboy = require('busboy');
-const fs = require('fs');
+admin.initializeApp(functions.config().firebase);
 
-const { Storage } = require('@google-cloud/storage');
+const getToken = (idToken) => {
+    return admin.auth().verifyIdToken(idToken);
+}
 
-const storage = new Storage({
-    projectID: "strellus-68be0",
-    keyFilename: "strellus-68be0-firebase-adminsdk-g2kus-ae5332bf83.json"
-})
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
+const getMemberships = (uid) => {
+    const db = admin.firestore();
+    return db.collection('workspace_membership')
+    .where("user_id", "==", uid)
+    .get();
+}
 
-// The Firebase Admin SDK to access the Firebase Realtime Database.
-// const admin = require('firebase-admin');
-// admin.initializeApp();
+const getWorkspaceFromMembership = (membership) => {
+    const db = admin.firestore();
+    return db.collection('workspaces')
+    .doc(membership.data().workspace_id)
+    .get();
+};
 
-exports.uploadFile = functions.region("europe-west2").https.onRequest((req,res) => {
-    cors(req, res, () => {
-        if(req.method !== "POST") {
-            res.status(405).json({
+exports.getWorkspaces = functions.region("europe-west2").https.onRequest((req,res) => {
+    return cors(req, res, () => {
+        if(req.method !== "GET") {
+            return res.status(405).send({
                 message: "Method not allowed"
-            })
+            });
         }
-        const busyboy = new Busyboy({headers: req.headers});
-        let uploadData = null;
-        busyboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
-            const filepath = path.join(os.tmpdir(), filename);
-            uploadData = { file: filepath, type: mimetype };
-            file.pipe(fs.createWriteStream(filepath));
-        });
-        busyboy.on('finish', () => {
-            const bucket = storage.bucket('strellus-68be0.appspot.com');
-            bucket.upload(uploadData.file, {
-                uploadType: 'media',
-                metadata: {
-                    metadata: {
-                        contentType: uploadData.type
-                    }
-                }
-            }).then(() => {
-                return res.status(200).json({
-                    message: "file uploaded"
-                })
-            }).catch(err => {
-                return res.status(500).json({
-                    message: err
-                })
+
+        if ((!req.headers.authorization || !req.headers.authorization.startsWith('Bearer '))) {
+            return res.status(403).send('Unauthorized - No Firebase ID token was passed as a Bearer token in the Authorization header.');
+        } 
+        
+        const idToken = req.headers.authorization.split('Bearer ')[1];
+
+        let userWorkspaces = [];
+        let promises = [];
+
+        getToken(idToken)
+        .then(decodedToken => {
+            const uid = decodedToken.uid;
+            console.log(uid,'user');
+            return getMemberships(uid);
+        })
+        .then(result => {
+            result.forEach(membership => {
+                promises.push(getWorkspaceFromMembership(membership));
+            });
+            return Promise.all(promises);
+        })
+        .then(workspaces => {
+            workspaces.forEach(workspace => {
+                const workspaceData = workspace.data();
+
+                userWorkspaces = userWorkspaces.concat({
+                    id: workspace.id,
+                    name: workspaceData.name,
+                    new: workspace.data().new,
+                    admin: workspace.data().admin,
+                    private: workspace.data().private
+                });
             })
+            return res.status(200).send(userWorkspaces);
+        })
+        .catch(error => {
+            return res.status(500).send({
+                message: error.message
+            });
         });
-        busyboy.end(req.rawBody);
     });
 });
