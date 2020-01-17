@@ -24,12 +24,19 @@ const router = new Router({
         requiresAuth: true,
       },
       beforeEnter(to, from, next) {
+        // Dispatch but don't wait for
         Promise.all([
           store.dispatch('UserStore/getProfileImage'),
-          store.dispatch('WorkspaceStore/getWorkspaces'),
-        ]).finally(() => {
-          store.dispatch('NotificationStore/updateNotifications');
+        ]).then(() => {
+          store.commit("setLoading", true);
           next();
+          return Promise.all([
+            store.dispatch('NotificationStore/updateNotifications'),
+            store.dispatch('WorkspaceStore/getWorkspaces')
+          ])
+        })
+        .then(() => {
+          store.commit("setLoading", false);
         })
         
       },

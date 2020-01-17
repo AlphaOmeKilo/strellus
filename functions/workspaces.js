@@ -31,7 +31,7 @@ const getWorkspace = (req,res) => {
     .then(decodedToken => {
         const uid = decodedToken.uid;
         console.log(uid,'user');
-        return getWorkspaceFS(req.params.id)
+        return getWorkspaceFS(uid)
     })
     .then(result => {
         const workspace = {

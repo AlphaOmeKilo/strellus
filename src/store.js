@@ -16,10 +16,12 @@ export default new Vuex.Store({
     UserStore
   },
   state: {
-
+    loading: false
   },
   mutations: {
-
+    setLoading(state, payload) {
+      state.loading = payload;
+    }
   },
   actions: {
 

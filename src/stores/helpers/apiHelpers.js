@@ -10,6 +10,9 @@ export const API_ENDPOINTS = {
   },
   notifications: {
       api: `${apiRoot}/notifications/`
+  },
+  user: {
+      api: `${apiRoot}/user/`
   }
 }
 

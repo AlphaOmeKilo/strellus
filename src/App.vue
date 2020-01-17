@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <transition name="slide-rl" mode="out-in">
+        <transition name="fade" mode="out-in">
             <router-view/>
         </transition>
     </div>
@@ -46,7 +46,7 @@ label,
 
 input {
     background-color: #ebf0ff;
-    border: 1px solid rgba(83, 56, 117, 1);
+    border: 1px solid #533875;
     border-radius: 4px;
     padding: 4px 8px;
     font-size: 18px;

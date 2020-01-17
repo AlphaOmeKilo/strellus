@@ -2,6 +2,8 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 
+import { getAPI } from "@/stores/helpers/apiHelpers.js";
+
 const WorkspaceStore = {
   namespaced: true,
   state: {
@@ -40,33 +42,9 @@ const WorkspaceStore = {
      * Get the profile image of the user if it exists
      * @param commit: The vuex commit object
      */
-    getProfileImage({ commit }, uuid) {
-      const userID = uuid ? uuid : firebase.auth().currentUser.uid;
-      return new Promise((resolve, reject) => {
-        firebase.firestore().collection('profiles').where("user_id", "==", userID)
-        .get()
-        .then(result => {
-          if(result.docs[0]) {
-            firebase.firestore().collection('profiles').doc(result.docs[0].id)
-            .get()
-            .then(profile => {
-              const profileImageUrl = profile.data().profile_image_url;
-              if(!uuid) commit("setProfileImageUrl", profileImageUrl);
-              resolve(profileImageUrl);
-            })
-            .catch(error => {
-              reject();
-            });
-          } else {
-            // set default profile image
-            commit("setProfileImageUrl", "default");
-            resolve();
-          }
-        })
-        .catch(error => {
-          reject();
-        });
-      })
+    async getProfileImage({ commit }) {
+      const profileImageUrl = await getAPI("user","profile-image");
+      commit("setProfileImageUrl", profileImageUrl.data[0].profile_image);
     },
   }
 }
