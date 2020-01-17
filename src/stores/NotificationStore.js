@@ -1,7 +1,4 @@
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/firestore';
-import Vue from 'vue';
+import { getAPI } from "@/stores/helpers/apiHelpers.js";
 
 const NotificationStore = {
     namespaced: true,
@@ -14,8 +11,8 @@ const NotificationStore = {
 
     },
     mutations: {
-        addNotification(state, payload) {
-            Vue.set(state.notifications, state.notifications.length, payload);
+        setNotifications(state, payload) {
+            state.notifications = payload;
         },
         clearNotifications(state) {
             state.notifications = [];
@@ -27,43 +24,10 @@ const NotificationStore = {
         }
     },
     actions: {
-        updateNotifications({ commit, dispatch, rootGetters }) {
-
+        async updateNotifications({ commit }) {
             commit("clearNotifications");
-
-            firebase.firestore().collection('workspace_membership').where("user_id", "==", firebase.auth().currentUser.uid).where("private", "==", false).get()
-            .then(memberships => {
-                memberships.forEach(membership => {
-                    firebase.firestore().collection('notifications').where("workspace_id", "==", membership.data().workspace_id).get()
-                    .then(notifications => {
-                        // all notifications for the workspace
-                        notifications.forEach(notification => {
-                            const data = notification.data();
-
-                            getNotificationUser(notification.id, data.user_id, dispatch, commit),
-
-                            commit("addNotification", {
-                                id: notification.id,
-                                workspace: getWorkspaceName(data.workspace_id, rootGetters),
-                                doctype: data.doctype,
-                                chain: data.chain,
-                                icon_class: data.icon_class,
-                                message: data.message,
-                                timestamp: data.timestamp
-                            });
-                        })
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    })
-                });
-                
-            })
-            .catch(error => {
-                console.log(error);
-            })
-
-            
+            const notifications = await getAPI("notifications");
+            commit("setNotifications", notifications.data);
         },
         clearNotifications({commit}) {
             const notificationList = [];

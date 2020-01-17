@@ -10,10 +10,10 @@
                 <transition-group name="slide-rl">
                     <div v-show="showMenu" v-for="(notification, index) in notifications" :key="`notification_${index}`" class="notification st-border-b st-v-center">
                         <div :class="`notification-icon notification-${notification.icon_class}`">
-                            <img :src="notification.avatar" class="avatar"/>
+                            <img :src="notification.avatar" class="avatar" />
                         </div>
                         <div class="st-text-l">
-                            <p class="label st-text-grey">{{notification.workspace}} / {{notification.doctype}}</p>
+                            <p class="label st-text-grey">{{ getWorkspaceNameById(notification.workspace_id) }} / {{notification.doctype}}</p>
                             <p>{{notification.message}}</p>
                             <p class="label st-text-grey">{{notification.timestamp}}</p>
                         </div>
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions, mapGetters } from 'vuex';
 
 export default {
     name: "Notifications",
@@ -38,6 +38,7 @@ export default {
     },
     computed: {
         ...mapState("NotificationStore", ["notifications"]),
+        ...mapGetters("WorkspaceStore", ["getWorkspaceNameById"]),
     },
     methods: {
         ...mapActions("NotificationStore", ["clearNotifications"]),
@@ -92,7 +93,6 @@ export default {
     border-radius: 50%;
     height: 40px;
     width: 40px;
-
     .temp-icon {
         position: absolute;
         bottom: -4px;

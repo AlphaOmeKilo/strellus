@@ -1,7 +1,3 @@
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/firestore';
-import 'firebase/functions'
 import Vue from 'vue';
 
 import { getAPI } from "@/stores/helpers/apiHelpers.js";
@@ -56,22 +52,11 @@ const WorkspaceStore = {
          * @param commit: The vuex commit object 
          * @param uuid: The uuid of the workspace
          */
-        getWorkspaceStack({ commit }, { uuid }) {
-
-            firebase.firestore().collection('workspaces')
-                .doc(uuid)
-                .get()
-                .then(result => {
-                    const workspace = {
-                        name: result.data().name
-                    }
-                    commit("setActiveWorkspace", result.id);
-                    commit("setWorkspaceStack", workspace);
-                })
-                .catch(error => {
-
-                });
-        },
+        async getWorkspaceStack({ commit }, { uuid }) {
+            const workspace = await getAPI("workspaces", uuid);
+            commit("setActiveWorkspace", workspace.data.id);
+            commit("setWorkspaceStack", workspace.data);
+        }
     }
 }
 
