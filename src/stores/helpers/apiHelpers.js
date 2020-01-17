@@ -15,8 +15,7 @@ export const API_ENDPOINTS = {
       api: `${apiRoot}/user/`
   }
 }
-
-export async function getAPI(key, path) {
+async function setUserToken() {
     let userToken;
     await firebase.auth().currentUser.getIdToken(true)
     .then(function (token) {
@@ -29,6 +28,16 @@ export async function getAPI(key, path) {
     axios.defaults.headers.common['Authorization'] = 
                                 'Bearer ' + userToken;
 
+}
+
+export async function postAPI(key, path, content) {
+    await setUserToken();
+    const apiEndpoint = path ? API_ENDPOINTS[key].api + path : API_ENDPOINTS[key].api;
+    return await axios.post(apiEndpoint, { data: content });
+}
+
+export async function getAPI(key, path) {
+    await setUserToken();
     const apiEndpoint = path ? API_ENDPOINTS[key].api + path : API_ENDPOINTS[key].api;
     return await axios.get(apiEndpoint);
 }

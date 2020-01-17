@@ -1,8 +1,4 @@
-import firebase from 'firebase/app';
-import 'firebase/firestore';
-import 'firebase/auth';
-
-import { getAPI } from "@/stores/helpers/apiHelpers.js";
+import { getAPI, postAPI } from "@/stores/helpers/apiHelpers";
 
 const WorkspaceStore = {
   namespaced: true,
@@ -16,27 +12,11 @@ const WorkspaceStore = {
     },
   },
   actions: {
-    updateProfileImage({commit}, {url}) {
-      firebase.firestore().collection('profiles').where("user_id", "==", firebase.auth().currentUser.uid)
-      .get()
-      .then(result => {
-        result.forEach(doc => {
-            firebase.firestore().collection('profiles')
-            .doc(doc.id)
-            .update({
-                profile_image_url: url
-            })
-            .then(result => {
-                commit("setProfileImageUrl", url);
-            })
-            .catch(error => {
-
-            });
-        });
-      })
-      .catch(error => {
-
+    async updateProfileImage({ commit }, { url }) {
+      const imageObj = await postAPI("user","profile-image", {
+        profile_image_url: url
       });
+      commit("setProfileImageUrl", imageObj.data.profile_image_url);
     },
     /**
      * Get the profile image of the user if it exists

@@ -1,6 +1,9 @@
 <template>
     <div>
-        <img id="avatar" @click="toggleUserMenu" :src="profileImageUrl">
+        <transition name="slide-rl" mode="out-in">
+            <img v-show="profileImageLoaded" ref="profileImage" id="avatar" @click="toggleUserMenu" @load="loaded" :src="profileImageUrl">
+        </transition>
+        
     
         <transition name="slide-rl" mode="out-in">
             <div v-show="showMenu" id="userMenu">
@@ -31,6 +34,7 @@ export default {
     data: () => ({
         showInviteModal: false,
         selected: "",
+        profileImageLoaded: false
     }),
     props: {
         showMenu: Boolean
@@ -39,6 +43,9 @@ export default {
         Invite
     },
     methods: {
+        loaded() {
+           this.profileImageLoaded = true
+        },
         signout() {
             firebase.auth().signOut().then(() => {
                 this.$router.replace('/login');
@@ -78,7 +85,7 @@ export default {
                 return !workspace.private;
             })
         }
-    }
+    },
 
 }
 </script>

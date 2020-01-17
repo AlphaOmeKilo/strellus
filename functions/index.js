@@ -30,4 +30,5 @@ exports.notifications = functions.region("europe-west2").https.onRequest(notific
 const userApp = express();
 userApp.use(cors);
 userApp.get('/profile-image', (req, res) => user.getProfileImage(req, res));
+userApp.post('/profile-image', (req, res) => user.updateProfileImage(req, res));
 exports.user = functions.region("europe-west2").https.onRequest(userApp);

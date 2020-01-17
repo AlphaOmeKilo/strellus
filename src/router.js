@@ -24,7 +24,6 @@ const router = new Router({
         requiresAuth: true,
       },
       beforeEnter(to, from, next) {
-        // Dispatch but don't wait for
         Promise.all([
           store.dispatch('UserStore/getProfileImage'),
         ]).then(() => {
