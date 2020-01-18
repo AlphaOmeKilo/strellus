@@ -1,6 +1,7 @@
 const workspaces = require('./workspaces');
 const notifications = require('./notifications');
 const user = require('./user');
+const invitations = require('./invitations');
 
 const functions = require('firebase-functions');
 const express = require('express');
@@ -12,6 +13,7 @@ admin.initializeApp(functions.config().firebase);
 workspaces.setup(admin);
 notifications.setup(admin);
 user.setup(admin);
+invitations.setup(admin);
 
 // Workspaces API
 const workspaceApp = express();
@@ -32,3 +34,10 @@ userApp.use(cors);
 userApp.get('/profile-image', (req, res) => user.getProfileImage(req, res));
 userApp.post('/profile-image', (req, res) => user.updateProfileImage(req, res));
 exports.user = functions.region("europe-west2").https.onRequest(userApp);
+
+//Invitations API
+const invitationsApp = express();
+invitationsApp.use(cors);
+invitationsApp.put('/', (req, res) => invitations.inviteUser(req,res));
+invitationsApp.get('/', (req, res) => invitations.getInvitations(req,res));
+exports.invitations = functions.region("europe-west2").https.onRequest(invitationsApp);

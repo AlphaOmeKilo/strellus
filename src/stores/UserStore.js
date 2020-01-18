@@ -24,7 +24,11 @@ const WorkspaceStore = {
      */
     async getProfileImage({ commit }) {
       const profileImageUrl = await getAPI("user","profile-image");
-      commit("setProfileImageUrl", profileImageUrl.data[0].profile_image);
+      if(profileImageUrl.data[0]) {
+        commit("setProfileImageUrl", profileImageUrl.data[0].profile_image)
+      } else {
+        commit("setProfileImageUrl", "");
+      }
     },
   }
 }

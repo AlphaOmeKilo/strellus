@@ -86,6 +86,10 @@ export default {
             })
         }
     },
+    mounted() {
+        // TO BE REMOVED
+        this.profileImageLoaded = true;
+    }
 
 }
 </script>

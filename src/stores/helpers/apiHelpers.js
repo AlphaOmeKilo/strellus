@@ -13,6 +13,9 @@ export const API_ENDPOINTS = {
   },
   user: {
       api: `${apiRoot}/user/`
+  },
+  invitations: {
+    api: `${apiRoot}/invitations/`
   }
 }
 async function setUserToken() {
@@ -28,6 +31,12 @@ async function setUserToken() {
     axios.defaults.headers.common['Authorization'] = 
                                 'Bearer ' + userToken;
 
+}
+
+export async function putAPI(key, path, content) {
+    await setUserToken();
+    const apiEndpoint = path ? API_ENDPOINTS[key].api + path : API_ENDPOINTS[key].api;
+    return await axios.put(apiEndpoint, { data: content });
 }
 
 export async function postAPI(key, path, content) {

@@ -8,6 +8,46 @@ const getMembershipsFS = (uid) => {
     .get();
 }
 
+const getNewMembershipsFS = (uid) => {
+    const db = admin.firestore();
+    return db.collection('workspace_membership')
+    .where("user_id", "==", uid)
+    .where("new", "==", true)
+    .get();
+}
+
+const updateMembershipFS = (id, content) => {
+    const db = admin.firestore();
+    return db.collection('workspace_membership')
+    .doc(id)
+    .update(content);
+}
+
+const updateNewMembershipsWithEmailFS = (uid, email) => {
+    return getMembershipsFS(email)
+    .then(result => {
+        let promises = [];
+        result.forEach(membership => {
+            promises.push(updateMembershipFS(membership.id, {
+                user_id: uid
+            }));
+        });
+        return Promise.all(promises);
+    })
+}
+
+const addWorkspaceMembership = (data) => {
+    const db = admin.firestore();
+    return db.collection('workspace_membership')
+    .add({
+        admin: false,
+        new: true,
+        private: false,
+        user_id: data.email,
+        workspace_id: data.workspace_id
+    });
+}
+
 const getWorkspaceFS = (id) => {
     const db = admin.firestore();
     return db.collection('workspaces')
@@ -36,7 +76,7 @@ const getWorkspace = (req,res) => {
     .then(result => {
         const workspace = {
             id: result.id,
-            name: result.data().name
+            name: result.data().name,
         };
 
         return res.status(200).send(workspace);
@@ -72,16 +112,12 @@ const getWorkspaces = (req,res) => {
     })
     .then(workspaces => {
         workspaces.forEach(workspace => {
-            const workspaceData = workspace.data();
-
             userWorkspaces = userWorkspaces.concat({
                 id: workspace.id,
-                name: workspaceData.name,
-                new: workspace.data().new,
-                admin: workspace.data().admin,
-                private: workspace.data().private
+                name: workspace.data().name,
             });
         })
+
         return res.status(200).send(userWorkspaces);
     })
     .catch(error => {
@@ -94,6 +130,10 @@ const getWorkspaces = (req,res) => {
 module.exports = {
     setup,
     getMembershipsFS,
+    getNewMembershipsFS,
+    updateNewMembershipsWithEmailFS,
+    getWorkspaceFS,
+    addWorkspaceMembership,
     getWorkspace,
     getWorkspaces
 }

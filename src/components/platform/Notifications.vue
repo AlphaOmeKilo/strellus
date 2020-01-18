@@ -1,7 +1,8 @@
 <template>
     <div>
-        <div id="notification-icon" @click="toggleNotificationMenu">
-        </div>
+        <transition name="slide-rl" mode="out-in">
+            <div v-show="!loading" id="notification-icon" @click="toggleNotificationMenu"></div>
+        </transition>
         <transition name="slide-rl" mode="out-in">
             <div v-show="showMenu" id="notificationMenu">
                 <div class="st-text-r st-border-b">
@@ -37,7 +38,7 @@ export default {
         showMenu: Boolean
     },
     computed: {
-        ...mapState("NotificationStore", ["notifications"]),
+        ...mapState("NotificationStore", ["notifications", "loading"]),
         ...mapGetters("WorkspaceStore", ["getWorkspaceNameById"]),
     },
     methods: {

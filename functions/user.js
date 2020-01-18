@@ -6,6 +6,10 @@ const setup = (a) => {
     auth.setup(a);
 }
 
+const getUserById = (id) => {
+    return admin.auth().getUser(id);
+}
+
 const getProfilesFS = (uid) => {
     const db = admin.firestore();
     return db.collection('profiles')
@@ -95,6 +99,7 @@ const getProfileImage = (req, res) => {
 
 module.exports = {
     setup,
+    getUserById,
     getProfileImage,
     updateProfileImage
 }

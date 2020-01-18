@@ -29,13 +29,15 @@ const router = new Router({
         ]).then(() => {
           store.commit("setLoading", true);
           next();
-          return Promise.all([
-            store.dispatch('NotificationStore/updateNotifications'),
-            store.dispatch('WorkspaceStore/getWorkspaces')
-          ])
+          store.commit("NotificationStore/setLoading", true);
+          return store.dispatch('WorkspaceStore/getWorkspaces')
         })
         .then(() => {
           store.commit("setLoading", false);
+          return store.dispatch('NotificationStore/updateNotifications');
+        })
+        .then(() => {
+          store.commit("NotificationStore/setLoading", false);
         })
         
       },

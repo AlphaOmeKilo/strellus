@@ -3,9 +3,8 @@ import { getAPI } from "@/stores/helpers/apiHelpers.js";
 const NotificationStore = {
     namespaced: true,
     state: {
-        notifications: [
-            
-        ]
+        notifications: [],
+        loading: false
     },
     getters: {
 
@@ -13,6 +12,9 @@ const NotificationStore = {
     mutations: {
         setNotifications(state, payload) {
             state.notifications = payload;
+        },
+        setLoading(state, payload) {
+            state.loading = payload
         },
         clearNotifications(state) {
             state.notifications = [];
