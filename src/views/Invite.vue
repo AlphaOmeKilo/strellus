@@ -1,7 +1,7 @@
 <template>
     <div class="signup st-flex">
-        <div class="signup-img">
-    
+        <div class="st-vh-center signup-img-container">
+            <img class="signup-img" src="@/assets/max-bender-unsplash.jpg">
         </div>
         <div class="signup-form st-vh-center">
             <h1 id="platform-logo">
@@ -62,7 +62,7 @@ export default {
 .signup {
     height: 100vh;
     &-form,
-    &-img {
+    &-img-container {
         width: 50%;
     }
     &-form {
@@ -74,9 +74,12 @@ export default {
         }
     }
     &-img {
-        background-image: url('../assets/max-bender-unsplash.jpg');
-        background-size: cover;
-        background-position: center;
+        flex-grow: 1;
+        object-fit: cover;
+
+        &-container {
+            overflow: hidden;
+        }
     }
 }
 

@@ -1,7 +1,7 @@
 <template>
-    <div class="signup st-flex">
-        <div class="signup-img">
-    
+    <div v-show="!loading" class="signup st-flex">
+        <div class="st-vh-center signup-img-container">
+            <img class="signup-img" src="@/assets/max-bender-unsplash.jpg" @load="loaded">
         </div>
         <div class="signup-form st-vh-center">
             <h1 id="platform-logo"><router-link to="/">strellus</router-link></h1>
@@ -30,6 +30,7 @@
 import Vue from 'vue';
 import firebase from 'firebase/app';
 import 'firebase/auth';
+import { mapMutations, mapState } from 'vuex';
 
 export default {
     data() {
@@ -42,6 +43,8 @@ export default {
         };
     },
     methods: {
+        ...mapMutations(["setLoading"]),
+
         signup(e) {
             this.disabled = true;
             this.error = false;
@@ -58,7 +61,18 @@ export default {
                 },
             );
         },
+        loaded() {
+            this.setLoading(false);
+        }
     },
+    computed: {
+        ...mapState({
+            loading: state => state.loading
+        })
+    },
+    mounted() {
+        this.setLoading(true);
+    }
 };
 </script>
 
@@ -73,7 +87,7 @@ export default {
 .signup {
     height: 100vh;
     &-form,
-    &-img {
+    &-img-container {
         width: 50%;
     }
     &-form {
@@ -85,9 +99,12 @@ export default {
         }
     }
     &-img {
-        background-image: url('../assets/max-bender-unsplash.jpg');
-        background-size: cover;
-        background-position: center;
+        flex-grow: 1;
+        object-fit: cover;
+
+        &-container {
+            overflow: hidden;
+        }
     }
 }
 
