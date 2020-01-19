@@ -10,6 +10,34 @@ const getUserById = (id) => {
     return admin.auth().getUser(id);
 }
 
+const createPrivateWorkspaceFS = () => {
+    const db = admin.firestore();
+    return db.collection('workspaces')
+    .add({
+        name: "My Private Workspace"
+    });
+}
+
+const createWorkspaceMembershipFS = (user_id, workspace_id) => {
+    const db = admin.firestore();
+    return db.collection('workspace_membership')
+    .add({
+        admin: true,
+        new: false,
+        prviate: true,
+        user_id: user_id,
+        workspace_id: workspace_id
+    });
+}
+
+const createProfileFS = (uid) => {
+    const db = admin.firestore();
+    return db.collection('profiles')
+    .add({
+        user_id: uid
+    });
+}
+
 const getProfilesFS = (uid) => {
     const db = admin.firestore();
     return db.collection('profiles')
@@ -101,5 +129,8 @@ module.exports = {
     setup,
     getUserById,
     getProfileImage,
+    createProfileFS,
+    createPrivateWorkspaceFS,
+    createWorkspaceMembershipFS,
     updateProfileImage
 }

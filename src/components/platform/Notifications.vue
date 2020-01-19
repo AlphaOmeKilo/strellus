@@ -1,8 +1,7 @@
 <template>
     <div>
-        <transition name="slide-rl" mode="out-in">
-            <div v-show="!loading" id="notification-icon" @click="toggleNotificationMenu"></div>
-        </transition>
+
+        <div :class="{loading: loading}" id="notification-icon" @click="toggleNotificationMenu"></div>
         <transition name="slide-rl" mode="out-in">
             <div v-show="showMenu" id="notificationMenu">
                 <div class="st-text-r st-border-b">
@@ -65,6 +64,13 @@ export default {
     margin-left: 12px;
     &:hover {
         transform: scale(1.1);
+    }
+
+    &.loading {
+        border: 1px solid red;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
     }
 }
 

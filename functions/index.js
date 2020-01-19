@@ -41,3 +41,36 @@ invitationsApp.use(cors);
 invitationsApp.put('/', (req, res) => invitations.inviteUser(req,res));
 invitationsApp.get('/', (req, res) => invitations.getInvitations(req,res));
 exports.invitations = functions.region("europe-west2").https.onRequest(invitationsApp);
+
+
+// Triggered Methods
+
+exports.createPrivateWorkspace = functions.region("europe-west2").auth.user().onCreate((userObj) => {
+    user.createPrivateWorkspaceFS()
+    .then(workspace => {
+        console.info(`user ${userObj.uid} had private workspace ${workspace.id} created`);
+        return user.createWorkspaceMembershipFS(userObj.uid, workspace.id);
+    })
+    .then(membership => {
+        console.info(`user ${userObj.uid} had membership ${membership.id} created`);
+        return 0;
+    })
+    .catch(error => {
+        return {
+            message: error.message
+        };
+    });
+});
+
+exports.createUserProfile = functions.region("europe-west2").auth.user().onCreate((userObj) => {
+    user.createProfileFS(userObj.uid)
+    .then(profile => {
+        console.info(`user ${userObj.uid} had profile ${profile.id} created`);
+        return 0;
+    })
+    .catch(error => {
+        return {
+            message: error.message
+        };
+    });
+});

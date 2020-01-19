@@ -86,10 +86,6 @@ export default {
             })
         }
     },
-    mounted() {
-        // TO BE REMOVED
-        this.profileImageLoaded = true;
-    }
 
 }
 </script>
@@ -98,7 +94,6 @@ export default {
 #avatar {
     display: block;
     cursor: pointer;
-    background-color: #533875;
     border-radius: 50%;
     height: 40px;
     width: 40px;

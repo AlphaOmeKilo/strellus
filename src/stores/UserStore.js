@@ -24,10 +24,10 @@ const WorkspaceStore = {
      */
     async getProfileImage({ commit }) {
       const profileImageUrl = await getAPI("user","profile-image");
-      if(profileImageUrl.data[0]) {
+      if(profileImageUrl.data[0] && profileImageUrl.data[0].profile_image) {
         commit("setProfileImageUrl", profileImageUrl.data[0].profile_image)
       } else {
-        commit("setProfileImageUrl", "");
+        commit("setProfileImageUrl", require('@/assets/default-user-icon.png'));
       }
     },
   }
