@@ -5,6 +5,7 @@ import NotificationStore from './stores/NotificationStore';
 import WorkspaceStore from './stores/WorkspaceStore';
 import InvitationStore from './stores/InvitationStore';
 import UserStore from './stores/UserStore';
+import MailStore from './stores/MailStore';
 
 Vue.use(Vuex);
 
@@ -13,7 +14,8 @@ export default new Vuex.Store({
     NotificationStore,
     WorkspaceStore,
     InvitationStore,
-    UserStore
+    UserStore,
+    MailStore
   },
   state: {
     loading: false

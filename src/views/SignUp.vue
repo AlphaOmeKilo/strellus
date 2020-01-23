@@ -30,7 +30,7 @@
 import Vue from 'vue';
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import { mapMutations, mapState } from 'vuex';
+import { mapMutations } from 'vuex';
 
 export default {
     data() {
@@ -53,7 +53,9 @@ export default {
             
             firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
             .then(
-                (user) => this.$router.replace('/dashboard'),
+                (user) => {
+                    this.$router.replace('/dashboard');
+                },
                 (err) => {
                     this.errorMessage = err.message;
                     this.error = true;

@@ -23,7 +23,7 @@ const InvitationStore = {
                 email: email,
                 workspace_id: workspace_id
               });
-            console.log(invitation);
+            console.log(invitation, 'invite sent');
         },
         async getWorkspaceInvitations({ commit }) {
             const invitations = await getAPI("invitations");

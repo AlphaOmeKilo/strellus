@@ -43,7 +43,9 @@ export default {
             e.stopPropagation();
 
             firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
-                (user) => this.$router.replace('/dashboard'),
+                (user) =>  {
+                    this.$router.replace('/dashboard');
+                },
                 (err) => alert('Oops. ' + err.message),
             );
         },
