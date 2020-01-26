@@ -47,8 +47,10 @@ const router = new Router({
           name: 'dashboard',
           component: Dashboard,
           beforeEnter(to, from, next) {
+            store.commit("setLoading", true);
             store.commit("WorkspaceStore/setActiveWorkspace", "0");
             next();
+            store.commit("setLoading", false);
           },
         },
         {

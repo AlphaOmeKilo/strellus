@@ -52,10 +52,12 @@ const WorkspaceStore = {
          * @param commit: The vuex commit object 
          * @param uuid: The uuid of the workspace
          */
-        async getWorkspaceStack({ commit }, { uuid }) {
+        async getWorkspaceStack({ commit, rootStore }, { uuid }) {
+            commit("setLoading", true, { root: true });
             const workspace = await getAPI("workspaces", uuid);
             commit("setActiveWorkspace", workspace.data.id);
             commit("setWorkspaceStack", workspace.data);
+            commit("setLoading", false, { root: true });
         }
     }
 }

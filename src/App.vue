@@ -29,6 +29,10 @@ p {
 h3 {
     font-size: 32px;
     margin-bottom: 0;
+
+    &.mobile {
+        font-size: 24px;
+    }
 }
 
 .error {

@@ -90,20 +90,43 @@ export default {
 
 .login {
     height: 100vh;
+    padding: 12px;
     &-form,
     &-img-container {
         width: 100%;
         &.laptop,
         &.desktop {
             width: 50%;
+            padding: 0;
         }
     }
     &-form {
         text-align: left;
+
+        &.mobile {
+            text-align: center;
+
+            input:not(.button) {
+                width: 80%;
+                margin: 0 auto;
+                height: 30px;
+            }
+
+            .button {
+                width: 84%;
+                height: 40px;
+            }
+        }
+
         p {
             width: 300px;
             height: 44px;
             margin-bottom: 40px;
+        }
+
+        input:not(.button) {
+            width: 300px;
+            height: 40px;
         }
     }
     &-img {
@@ -113,11 +136,6 @@ export default {
             overflow: hidden;
         }
     }
-}
-
-input:not(.button) {
-    width: 300px;
-    height: 40px;
 }
 
 .button {

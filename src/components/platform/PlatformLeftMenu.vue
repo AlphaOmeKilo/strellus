@@ -30,7 +30,6 @@ export default {
     data: () => ({
     }),
     methods: {
-
         goToDashboard() {
             this.$router.push({ name: 'dashboard' });
         },

@@ -7,8 +7,8 @@
             <h1 id="platform-logo">
                 <router-link to="/">strellus</router-link>
             </h1>
-            <div class="invite-form__fields">
-                <h3>You've been invited to Join your team on Strellus! <br/> Sign up below!</h3>
+            <div class="invite-form__fields" :class="$mq">
+                <h3 :class="$mq">You've been invited to Join your team on Strellus! <br/> Sign up below!</h3>
                 <form @submit="signup">
                     <label for="email">Email Address</label>
                     <input name="email" type="text" v-model="email"><br>
@@ -75,14 +75,21 @@ export default {
     right: 100px;
 }
 
+h3.mobile {
+    width: 80%;
+    margin: 0 auto;
+}
+
 .invite {
     height: 100vh;
     &-form,
     &-img-container {
+        padding: 12px;
         width: 100%;
         &.laptop,
         &.desktop {
             width: 50%;
+            padding: 0;
         }
     }
     &-form {
@@ -91,6 +98,30 @@ export default {
         &__fields {
             max-width: 75%;
             width: 320px;
+            &.mobile {
+                width: 100%;
+                max-width: unset;
+
+                input:not(.button) {
+                    width: 80%;
+                    margin: 0 auto;
+                    height: 30px;
+                }
+
+                .button {
+                    width: 84%;
+                    height: 40px;
+                }
+
+                form {
+                    text-align: center;
+                }
+            }
+
+            input:not(.button) {
+                width: 300px;
+                height: 40px;
+            }
         }
     }
     &-img {
@@ -103,10 +134,7 @@ export default {
     }
 }
 
-input:not(.button) {
-    width: 300px;
-    height: 40px;
-}
+
 
 .button {
     margin-top: 30px;
