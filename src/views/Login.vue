@@ -1,6 +1,6 @@
 <template>
-    <div v-show="!loading" class="login st-flex">
-        <div class="login-form st-vh-center">
+    <div class="login st-flex">
+        <div class="login-form st-vh-center" :class="$mq">
             <div>
                 <h1 id="platform-logo">
                     <router-link to="/">strellus</router-link>
@@ -24,9 +24,9 @@
                 </p>
             </div>
         </div>
-        <div class="st-vh-center login-img-container">
+        <mq-layout v-show="!loading" mq="laptop+" class="st-vh-center login-img-container" :class="$mq">
             <img class="login-img" src="@/assets/max-bender-unsplash.jpg" @load="loaded">
-        </div>
+        </mq-layout>
     </div>
 </template>
 
@@ -92,7 +92,11 @@ export default {
     height: 100vh;
     &-form,
     &-img-container {
-        width: 50%;
+        width: 100%;
+        &.laptop,
+        &.desktop {
+            width: 50%;
+        }
     }
     &-form {
         text-align: left;

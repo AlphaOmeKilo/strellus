@@ -1,9 +1,20 @@
 import Vue from 'vue';
+import VueMq from 'vue-mq'
 import App from './App.vue';
 import router from './router';
 import store from './store';
 import firebase from 'firebase/app';
 import './registerServiceWorker';
+
+//Breakpoints
+Vue.use(VueMq, {
+  breakpoints: {
+    mobile: 640,
+    tablet: 960,
+    laptop: 1200,
+    desktop: Infinity,
+  }
+})
 
 Vue.config.productionTip = false;
 
