@@ -29,6 +29,9 @@ const InvitationStore = {
             const invitations = await getAPI("invitations");
             commit("setInvitations", invitations.data);
         },
+        async clearInvitations({ commit }) {
+            commit("setInvitations", []);
+        },
         async clearInvitation({ commit }, { uuid }) {
             commit("setInvitations", []);
             firebase.firestore().collection('workspace_membership')

@@ -24,11 +24,11 @@ const router = new Router({
         requiresAuth: true,
       },
       beforeEnter(to, from, next) {
+        next();
         Promise.all([
+          store.commit("setLoading", true),
           store.dispatch('UserStore/getProfileImage'),
         ]).then(() => {
-          store.commit("setLoading", true);
-          next();
           store.commit("NotificationStore/setLoading", true);
           return store.dispatch('WorkspaceStore/getWorkspaces')
         })

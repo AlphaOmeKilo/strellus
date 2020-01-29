@@ -9,7 +9,7 @@ import './registerServiceWorker';
 //Breakpoints
 Vue.use(VueMq, {
   breakpoints: {
-    mobile: 500,
+    mobile: 501,
     tablet: 960,
     laptop: 1200,
     desktop: Infinity,

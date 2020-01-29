@@ -1,5 +1,5 @@
 <template>
-    <div id="app">
+    <div id="app" :class="$mq">
         <transition name="fade" mode="out-in">
             <router-view/>
         </transition>
@@ -9,7 +9,33 @@
 <style lang="scss">
 body {
     margin: 0;
+}
+
+#app {
     overflow: hidden;
+
+    &.mobile,
+    &.tablet {
+        overflow: scroll;
+        #platform-logo {
+            margin-left: 0;
+            text-align: center;
+        }
+    }
+
+
+    #platform {
+        height: 100vh;
+        background-color: #ebf0ff;
+        &-logo {
+            margin-left: 100px;
+            font-size: 20px;
+            a {
+                text-decoration: none;
+                color: #000000;
+            }
+        }
+    }
 }
 
 .single-card-page {
@@ -58,6 +84,9 @@ input {
 
 button,
 .button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
     border-radius: 4px;
     background-color: #2368d9;
     height: 50px;
@@ -81,19 +110,6 @@ button,
         width: unset;
         padding: 0 30px;
         color: #000000;
-    }
-}
-
-#platform {
-    height: 100vh;
-    background-color: #ebf0ff;
-    &-logo {
-        margin-left: 100px;
-        font-size: 20px;
-        a {
-            text-decoration: none;
-            color: #000000;
-        }
     }
 }
 

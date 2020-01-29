@@ -1,14 +1,16 @@
 <template>
-    <div class="invite st-flex">
+    <div class="invite st-flex" :class="$mq">
         <mq-layout v-show="!loading" mq="laptop+" class="st-vh-center invite-img-container" :class="$mq">
             <img class="invite-img" src="@/assets/max-bender-unsplash.jpg" @load="loaded">
         </mq-layout>
-        <div class="invite-form st-vh-center" :class="$mq">
-            <h1 id="platform-logo">
-                <router-link to="/">strellus</router-link>
-            </h1>
+        <div class="invite-form st-vh-center" :class="$mq"> 
             <div class="invite-form__fields" :class="$mq">
-                <h3 :class="$mq">You've been invited to Join your team on Strellus! <br/> Sign up below!</h3>
+                 <h1 id="platform-logo">
+                    <router-link to="/">strellus</router-link>
+                </h1>
+                <div class="form-title" :class="$mq">
+                    <h3>You've been invited to Join your team on Strellus! <br/> Sign up below!</h3>
+                </div>
                 <form @submit="signup">
                     <label for="email">Email Address</label>
                     <input name="email" type="text" v-model="email"><br>
@@ -69,19 +71,33 @@ export default {
 
 
 <style lang="scss" scoped>
-#platform-logo {
-    position: absolute;
-    top: 0;
-    right: 100px;
-}
 
-h3.mobile {
+
+.form-title.mobile {
     width: 80%;
     margin: 0 auto;
 }
 
 .invite {
     height: 100vh;
+
+    #platform-logo {
+        position: absolute;
+        top: 0;
+        right: 100px;
+    }
+
+    &.mobile {
+        height: auto;
+
+        #platform-logo {
+            position: relative;
+            display: block;
+            right: 0;
+            text-align: center;
+        }
+    }
+
     &-form,
     &-img-container {
         padding: 12px;
@@ -94,6 +110,7 @@ h3.mobile {
     }
     &-form {
         text-align: left;
+        margin-bottom: 50px;
 
         &__fields {
             max-width: 75%;

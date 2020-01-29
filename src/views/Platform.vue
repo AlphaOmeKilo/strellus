@@ -3,7 +3,9 @@
         <Header :title="title"></Header>
     
         <transition name="slide-lr" mode="out-in">
-            <PlatformLeftMenu v-if="leftMenuActive"></PlatformLeftMenu>
+            <mq-layout v-if="leftMenuActive" mq="laptop+" :class="$mq">
+                <PlatformLeftMenu></PlatformLeftMenu>
+            </mq-layout>  
         </transition>
     
         <transition-group name="fade" mode="out-in">
@@ -13,7 +15,7 @@
     
     
         <transition name="fade" mode="out-in">
-            <Modal v-if="invitations.length > 0">
+            <Modal v-if="invitations.length > 0" @close="closeModal">
                 <div v-for="(invitation, index) in invitations" :key="`invitations-${index}`">
                     <div class="st-vh-center">
                         <h2>You Have been added to the {{ invitation.name }} workspace!</h2>
@@ -51,6 +53,7 @@ export default {
         ...mapActions("WorkspaceStore", ["getWorkspaces"]),
 
         closeModal() {
+            this.$store.dispatch("InvitationStore/clearInvitations");
             this.$router.push({ name: "dashboard" });
         },
         goToWorkspace(uuid) {

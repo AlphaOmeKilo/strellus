@@ -1,5 +1,5 @@
 <template>
-    <div class="loader st-vh-center">
+    <div class="loader st-vh-center" :class="$mq">
         <div class="dot"></div>
         <div class="dot"></div>
         <div class="dot"></div>
@@ -17,6 +17,12 @@ export default {
     height: calc(100% - 80px);
     width: calc(100% - 80px);
     margin-left: 80px;
+
+    &.mobile,
+    &.tablet {
+    width: calc(100%);
+    margin-left: 0;
+    }
 
     .dot {
         width: 50px;

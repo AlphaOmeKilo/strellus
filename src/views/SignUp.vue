@@ -1,15 +1,20 @@
 <template>
-    <div class="signup st-flex">
+    <div class="signup st-flex" :class="$mq">
         <mq-layout  v-show="!loading" mq="laptop+" class="st-vh-center signup-img-container" :class="$mq">
             <img class="signup-img" src="@/assets/max-bender-unsplash.jpg" @load="loaded">
         </mq-layout>
-        <div class="signup-form st-vh-center" :class="$mq">
-            <h1 id="platform-logo"><router-link to="/">strellus</router-link></h1>
-            <div>
-                <h3>Create an account</h3>
-                <transition name="slide-lr" mode="out-in">
-                    <p key="error" v-if="error" class="error">{{ errorMessage }}</p>
-                </transition>
+        <div class="signup-form st-vh-center" :class="$mq"> 
+            <div class="signup-form__fields" :class="$mq">
+                <h1 id="platform-logo">
+                    <router-link to="/">strellus</router-link>
+                </h1>
+                <div class="form-title" :class="$mq">
+                    <h3>Create an account</h3>
+                    <transition name="slide-lr" mode="out-in">
+                        <p key="error" v-if="error" class="error">{{ errorMessage }}</p>
+                    </transition>
+                </div>
+                
                 <form @submit="signup">
                     <label for="email">Email Address</label>
                     <input name="email" type="text" v-model="email"><br>
@@ -80,28 +85,74 @@ export default {
 
 
 <style lang="scss" scoped>
-#platform-logo {
-    position: absolute;
-    top: 0;
-    right: 100px;
+
+
+.form-title.mobile {
+    width: 80%;
+    margin: 0 auto;
 }
 
 .signup {
     height: 100vh;
+
+    #platform-logo {
+        position: absolute;
+        top: 0;
+        right: 100px;
+    }
+
+    &.mobile {
+        height: auto;
+
+        #platform-logo {
+            position: relative;
+            display: block;
+            right: 0;
+        }
+    }
+
     &-form,
     &-img-container {
         width: 100%;
+        padding: 12px;
         &.laptop,
         &.desktop {
             width: 50%;
+            padding: 0;
         }
     }
     &-form {
         text-align: left;
-        p {
-            width: 300px;
-            height: 44px;
-            margin-bottom: 40px;
+        margin-bottom: 50px;
+
+        &__fields {
+            max-width: 75%;
+            width: 320px;
+
+            &.mobile {
+                width: 100%;
+                max-width: unset;
+
+                input:not(.button) {
+                    width: 80%;
+                    margin: 0 auto;
+                    height: 30px;
+                }
+
+                .button {
+                    width: 84%;
+                    height: 40px;
+                }
+
+                form {
+                    text-align: center;
+                }
+            }
+
+            input:not(.button) {
+                width: 300px;
+                height: 40px;
+            }
         }
     }
     &-img {
@@ -112,11 +163,6 @@ export default {
             overflow: hidden;
         }
     }
-}
-
-input:not(.button) {
-    width: 300px;
-    height: 40px;
 }
 
 .button {

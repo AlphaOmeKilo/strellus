@@ -1,16 +1,17 @@
 <template>
-    <div class="login st-flex">
+    <div class="login st-flex" :class="$mq">
         <div class="login-form st-vh-center" :class="$mq">
-            <div>
+            <div class="login-form__fields" :class="$mq">
                 <h1 id="platform-logo">
                     <router-link to="/">strellus</router-link>
                 </h1>
-                <h3>Sign In to Strellus</h3>
-                <transition name="slide-lr" mode="out-in">
-                    <p key="no-error" v-if="!error">Please enter your credentials to proceed</p>
-                    <p key="error" v-else class="error">{{ errorMessage }}</p>
-                </transition>
-    
+                <div class="form-title" :class="$mq">
+                    <h3>Sign In to Strellus</h3>
+                    <transition name="slide-lr" mode="out-in">
+                        <p key="no-error" v-if="!error">Please enter your credentials to proceed</p>
+                        <p key="error" v-else class="error">{{ errorMessage }}</p>
+                    </transition>
+                </div>
                 <form @submit="login">
                     <label for="email">Email Address</label>
                     <input name="email" type="text" v-model="email"><br>
@@ -82,18 +83,34 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#platform-logo {
-    position: absolute;
-    top: 0;
-    left: 0;
+
+.form-title.mobile {
+    width: 80%;
+    margin: 0 auto;
 }
 
 .login {
     height: 100vh;
-    padding: 12px;
+
+    #platform-logo {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    &.mobile {
+        height: auto;
+
+        #platform-logo {
+            position: relative;
+            display: block;
+        }
+    }
+
     &-form,
     &-img-container {
         width: 100%;
+        padding: 12px;
         &.laptop,
         &.desktop {
             width: 50%;
@@ -102,31 +119,36 @@ export default {
     }
     &-form {
         text-align: left;
+        margin-bottom: 50px;
 
-        &.mobile {
-            text-align: center;
+        &__fields {
+            max-width: 75%;
+            width: 320px;
+
+            &.mobile {
+                width: 100%;
+                max-width: unset;
+
+                input:not(.button) {
+                    width: 80%;
+                    margin: 0 auto;
+                    height: 30px;
+                }
+
+                .button {
+                    width: 84%;
+                    height: 40px;
+                }
+
+                form {
+                    text-align: center;
+                }
+            }
 
             input:not(.button) {
-                width: 80%;
-                margin: 0 auto;
-                height: 30px;
-            }
-
-            .button {
-                width: 84%;
+                width: 300px;
                 height: 40px;
             }
-        }
-
-        p {
-            width: 300px;
-            height: 44px;
-            margin-bottom: 40px;
-        }
-
-        input:not(.button) {
-            width: 300px;
-            height: 40px;
         }
     }
     &-img {

@@ -16,6 +16,7 @@ export default {
 .hamburger {
     height: 20px;
     width: 30px;
+    margin-right: 30px;
     position: relative;
     div {
         height: 4px;
