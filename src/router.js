@@ -28,12 +28,11 @@ const router = new Router({
         Promise.all([
           store.commit("setLoading", true),
           store.dispatch('UserStore/getProfileImage'),
-        ]).then(() => {
-          store.commit("NotificationStore/setLoading", true);
-          return store.dispatch('WorkspaceStore/getWorkspaces')
-        })
+          store.dispatch('WorkspaceStore/getWorkspaces')
+        ])
         .then(() => {
           store.commit("setLoading", false);
+          store.commit("NotificationStore/setLoading", true);
           return store.dispatch('NotificationStore/updateNotifications');
         })
         .then(() => {

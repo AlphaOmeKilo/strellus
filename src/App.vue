@@ -132,6 +132,10 @@ button,
     }
 }
 
+.st-relative {
+    position: relative;
+}
+
 .st-text-grey {
     color: #BCBCBC;
 }

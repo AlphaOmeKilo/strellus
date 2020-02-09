@@ -1,7 +1,12 @@
 <template>
     <div>
-
-        <div :class="{loading: loading}" id="notification-icon" @click="toggleNotificationMenu"></div>
+        <div class="st-relative">
+            <transition name="fade" mode="out-in">
+                <div v-if="getNotificationCount > 0" class="notification-count st-vh-center" @click="toggleNotificationMenu">{{ getNotificationCount }}</div>
+            </transition>   
+            <font-awesome-icon icon="bell" class="fa-2x" :class="{loading: loading}" id="notification-icon" @click="toggleNotificationMenu"/>
+        </div>
+        
         <transition name="slide-rl" mode="out-in">
             <div v-show="showMenu" id="notificationMenu">
                 <div class="st-text-r st-border-b">
@@ -39,6 +44,7 @@ export default {
     computed: {
         ...mapState("NotificationStore", ["notifications", "loading"]),
         ...mapGetters("WorkspaceStore", ["getWorkspaceNameById"]),
+        ...mapGetters("NotificationStore", ["getNotificationCount"])
     },
     methods: {
         ...mapActions("NotificationStore", ["clearNotifications"]),
@@ -56,22 +62,20 @@ export default {
 <style lang="scss" scoped>
 #notification-icon {
     cursor: pointer;
-    background-color: #533875;
-    border-radius: 50%;
-    height: 40px;
-    width: 40px;
-    transition: 0.25s all;
     margin-left: 12px;
-    &:hover {
-        transform: scale(1.1);
-    }
+}
 
-    &.loading {
-        border: 1px solid red;
-        box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        -webkit-box-sizing: border-box;
-    }
+.notification-count {
+    position: absolute;
+    top: -12px;
+    right: -6px;
+    font-size: 14px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #FF0000;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 .notification {

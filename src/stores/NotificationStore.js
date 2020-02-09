@@ -7,7 +7,9 @@ const NotificationStore = {
         loading: false
     },
     getters: {
-
+        getNotificationCount: state => {
+            return state.notifications.length;
+        }
     },
     mutations: {
         setNotifications(state, payload) {

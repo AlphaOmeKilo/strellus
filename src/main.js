@@ -5,6 +5,7 @@ import router from './router';
 import store from './store';
 import firebase from 'firebase/app';
 import './registerServiceWorker';
+import './plugins/fontawesome';
 
 //Breakpoints
 Vue.use(VueMq, {

@@ -1,5 +1,6 @@
 <template>
     <div>
+        
         <transition name="slide-rl" mode="out-in">
             <img v-show="profileImageLoaded" ref="profileImage" id="avatar" @click="toggleUserMenu" @load="loaded" :src="profileImageUrl">
         </transition>
