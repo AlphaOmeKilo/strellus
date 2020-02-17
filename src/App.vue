@@ -148,6 +148,11 @@ button,
     margin: 0;
 }
 
+.st-m-h-1 {
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
 .st-flex {
     display: flex;
 }
@@ -177,6 +182,10 @@ button,
 
 .st-border-b {
     border-bottom: 1px solid #ebf0ff;
+}
+
+.st-no-wrap {
+    white-space: nowrap;
 }
 
 .slide-rl-enter-active,

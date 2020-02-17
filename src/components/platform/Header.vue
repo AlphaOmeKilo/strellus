@@ -1,15 +1,14 @@
 <template>
     <header>
         <div class="st-v-center">
-            <Menu></Menu>
+            <Menu @toggle="toggleLeftMenuSize()"></Menu>
             <h1 id="platform-logo">
                 <router-link to="/">{{ title }}</router-link>
             </h1>
         </div>
         <div class="st-v-center">
-            <!-- <router-link id="addLink" to="/addLink"></router-link> -->
-            <Notifications :showMenu="notificationMenu" @toggle="toggleNotificationMenu"></Notifications>
-            <UserMenu :showMenu="userMenu" @toggle="toggleUserMenu"></UserMenu>
+            <Notifications :showMenu="notificationMenu" @toggle="toggleNotificationMenu(!notificationMenu)"></Notifications>
+            <UserMenu :showMenu="userMenu" @toggle="toggleUserMenu(!userMenu)"></UserMenu>
         </div>
     </header>
 </template>
@@ -18,13 +17,10 @@
 import Menu from './Menu.vue';
 import UserMenu from './UserMenu.vue';
 import Notifications from './Notifications.vue';
+import { mapState, mapMutations } from 'vuex';
 
 export default {
     name: "Header",
-    data: () => ({
-        notificationMenu: false,
-        userMenu: false
-    }),
     props: {
         title: String
     },
@@ -34,14 +30,17 @@ export default {
         Notifications
     },
     methods: {
-        toggleNotificationMenu() {
-            this.userMenu = false;
-            this.notificationMenu = !this.notificationMenu;
-        },
-        toggleUserMenu() {
-            this.notificationMenu = false;
-            this.userMenu = !this.userMenu;
-        }
+        ...mapMutations("MenuStore", [
+            "toggleNotificationMenu",
+            "toggleUserMenu",
+            "toggleLeftMenuSize"
+        ]),
+    },
+    computed: {
+        ...mapState("MenuStore", {
+            notificationMenu: state => state.notificationMenu,
+            userMenu: state => state.userMenu,
+        }),
     }
 }
 </script>

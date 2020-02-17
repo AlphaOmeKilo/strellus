@@ -1,24 +1,39 @@
 <template>
-    <div id="platformLeftMenu">
+    <div id="platformLeftMenu" :class="leftMenuSize">
         <ul class="workspace-list">
-            <li :class="[{ active: activeWorkspace === '0'}, 'st-vh-center dashboard']" @click="goToDashboard()">
-                <div class="workspace-icon"></div>
+            <li :class="[{ active: activeWorkspace === '0'}, 'st-text-l st-v-center dashboard']" @click="goToDashboard()">
+                <font-awesome-icon icon="th-large" class="fa-2x" :style="{ color: '#533875' }"/>
+                <transition name="slide-lr" mode="out-in">
+                    <span v-if="leftMenuSize === 'large'" class="st-m-h-1 st-no-wrap">Dashboard</span>
+                </transition>
             </li>
             <transition-group name="slide-lr">
                 <template v-for="(workspace) in privateWorkspaces">
-                    <li :class="[{ active: activeWorkspace === workspace.id}, 'st-vh-center']" :key="workspace.id" @click="goToWorkspace(workspace.id)">
+                    <li :class="[{ active: activeWorkspace === workspace.id}, 'st-text-l st-v-center']" :key="workspace.id" @click="goToWorkspace(workspace.id)">
                         <div class="workspace-icon"></div>
+                        <transition name="slide-lr" mode="out-in">
+                            <span v-if="leftMenuSize === 'large'" class="st-m-h-1 st-no-wrap">{{ workspace.name }}</span>
+                        </transition>
                     </li>
                 </template>
             </transition-group>
             <transition-group name="slide-lr">
                 <template v-for="(workspace) in sharedWorkspaces">
-                    <li :class="[{ active: activeWorkspace === workspace.id}, 'st-vh-center']" :key="workspace.id" @click="goToWorkspace(workspace.id)">
+                    <li :class="[{ active: activeWorkspace === workspace.id}, 'st-text-l st-v-center']" :key="workspace.id" @click="goToWorkspace(workspace.id)">
                         <div class="workspace-icon"></div>
+                        <transition name="slide-lr" mode="out-in">
+                            <span v-if="leftMenuSize === 'large'" class="st-m-h-1 st-no-wrap">{{ workspace.name }}</span>
+                        </transition>
                     </li>
                 </template>
             </transition-group>
         </ul>
+        <div id="createWorkspace" class="st-text-l st-v-center">
+            <font-awesome-icon icon="plus" class="fa-2x" :style="{ color: '#533875' }"/>
+            <transition name="slide-lr" mode="out-in">
+                <span v-if="leftMenuSize === 'large'" class="st-m-h-1 st-no-wrap">Add Workspace</span>
+            </transition>
+        </div>
     </div>
 </template>
 
@@ -41,7 +56,15 @@ export default {
         }
     },
     computed: {
-        ...mapState("WorkspaceStore", ["workspaces", "activeWorkspace"]),
+        ...mapState("WorkspaceStore", {
+            workspaces: state => state.workspaces,
+            activeWorkspace: state => state.activeWorkspace
+        }),
+
+        ...mapState("MenuStore", {
+            leftMenuSize: state => state.leftMenuSize
+        }),
+        
 
         sharedWorkspaces() {
             return this.workspaces.filter( workspace => {
@@ -65,6 +88,15 @@ export default {
     left: 0;
     width: 80px;
     height: calc(100vh - 80px);
+    transition: all 0.25s;
+
+    &.large {
+        width: auto;
+    }
+
+    &.small {
+        width: 80px;
+    }
     .workspace {
         &-icon {
             cursor: pointer;
@@ -76,7 +108,7 @@ export default {
         &-list {
             list-style: none;
             padding: 0;
-            margin: 80px 0;
+            margin: 80px 0 40px;
 
             .dashboard {
                 margin-bottom: 80px;
@@ -84,10 +116,11 @@ export default {
 
             li {
                 height: 80px;
-                width: 80px;
+                width: calc(100% - 20px);
                 transition: all 0.25s;
                 cursor: pointer;
                 position: relative;
+                padding-left: 20px;
                 &:after {
                     content: '';
                     position: absolute;
@@ -105,6 +138,16 @@ export default {
                     }
                 }
             }
+        }
+    }
+
+    #createWorkspace {
+        cursor: pointer;
+        width: calc(100% - 26px);
+        margin-left: 26px;
+
+        svg {
+            margin-right: 6px;
         }
     }
 }

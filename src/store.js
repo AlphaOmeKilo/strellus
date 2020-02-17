@@ -6,6 +6,7 @@ import WorkspaceStore from './stores/WorkspaceStore';
 import InvitationStore from './stores/InvitationStore';
 import UserStore from './stores/UserStore';
 import MailStore from './stores/MailStore';
+import MenuStore from './stores/MenuStore';
 
 Vue.use(Vuex);
 
@@ -15,7 +16,8 @@ export default new Vuex.Store({
     WorkspaceStore,
     InvitationStore,
     UserStore,
-    MailStore
+    MailStore,
+    MenuStore
   },
   state: {
     loading: false

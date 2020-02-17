@@ -99,7 +99,7 @@ export default {
     height: 40px;
     width: 40px;
     transition: 0.25s all;
-    margin-left: 12px;
+    margin-left: 24px;
     &:hover {
         transform: scale(1.1);
     }

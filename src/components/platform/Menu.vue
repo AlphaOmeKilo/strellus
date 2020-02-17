@@ -1,5 +1,5 @@
 <template>
-    <div class="hamburger">
+    <div class="hamburger" @click="toggle">
         <div></div>
         <div></div>
         <div></div>
@@ -7,8 +7,14 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
-    name: "Menu"
+    name: "Menu",
+    methods: {
+        toggle() {
+            this.$emit("toggle");
+        }
+    }
 }
 </script>
 
